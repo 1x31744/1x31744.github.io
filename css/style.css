@@ -34,3 +34,18 @@ h1 {
     height: 100%;
     
 }
+.terminalWritespace {
+    background: white;
+    color: red;
+    display: flex;
+}
+.terminalReadspace {
+    color:red;
+    break-after: always;
+}
+.termedit {
+    width: 700px;
+    word-wrap: break-word;
+}
+#content {
+}

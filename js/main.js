@@ -1,29 +1,9 @@
+/* make terminal via non editable div and editable div */
+let terminal_read_part = document.getElementById("terminalReadspace")
+terminal_read_part.innerHTML = "hello <br> hi"
+let edit_content = document.getElementById("termedit")
 
-
-class TerminalManager {
-    element
-    currentLine
-    constructor() {
-        this.element = document.createElement('div');
-        this.element.innerHTML = "<p>heello</p>";
-        this.element.classList.add('fill_area');
-        this.currentLine = "";
-        document.addEventListener('keydown', (e) => {
-            if (e.key == "Backspace") {
-                this.currentLine = this.currentLine.slice(0, this.currentLine.length-1);
-            } else {
-                this.currentLine += e.key;
-            }
-            this.element.innerHTML = "<p>" + this.currentLine + "</p>";
-            console.log(e.key);
-        });
-    }
-    
-}
-let terminal_manager = new TerminalManager();
-
-const terminal = new WinBox(" ",{
-    title: "Custom Color",
+const terminal = new WinBox("Terminal",{
     background: "#FF0000",
     border: 4,
     width: '800px',

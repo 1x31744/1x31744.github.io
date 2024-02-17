@@ -1,21 +1,39 @@
-new WinBox("Limit Viewport", {
-    top: 50,
-    right: 50,
-    bottom: 100,
-    left: 50,
-    border: "0.1em",
-    background: "#000fff",
-});
 
-new WinBox("hellp em im stuck in hole",     {
+
+class TerminalManager {
+    element
+    currentLine
+    constructor() {
+        this.element = document.createElement('div');
+        this.element.innerHTML = "<p>heello</p>";
+        this.element.classList.add('fill_area');
+        this.currentLine = "";
+        document.addEventListener('keydown', (e) => {
+            if (e.key == "Backspace") {
+                this.currentLine = this.currentLine.slice(0, this.currentLine.length-1);
+            } else {
+                this.currentLine += e.key;
+            }
+            this.element.innerHTML = "<p>" + this.currentLine + "</p>";
+            console.log(e.key);
+        });
+    }
+    
+}
+let terminal_manager = new TerminalManager();
+
+const terminal = new WinBox(" ",{
     title: "Custom Color",
-    background: "#ff005d",
-    border: 4
+    background: "#FF0000",
+    border: 4,
+    width: '800px',
+    height: '400px',
+    mount: document.getElementById("content").cloneNode(true),
 });
+terminal.removeControl("wb-close")
+
+
 let b1 = document.getElementById('button1');
 b1.addEventListener('click', () => {
-    document.getElementById('p2').classList.add("brown_button");
-    document.getElementById('p2').textContent = ":P"
+    element.innerHTML = "<p>haiii :3</p>"
 });
-
-new WinBox("New winbox");

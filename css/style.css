@@ -54,5 +54,9 @@ h1 {
     overflow: hidden;
     outline: 0px solid transparent;
 }
-#content {
+.term_content {
+    font-size: 15px;
+}
+.info_pages {
+    font-family: monospace;
 }

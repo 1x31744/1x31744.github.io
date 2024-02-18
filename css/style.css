@@ -68,14 +68,26 @@ h2 {
     font-family: monospace;
     border-bottom: 2px solid red;
 }
-.topbuttons {
-    background-color: rgb(187, 0, 0);
+.files_content {
+    font-family: monospace;
+}
+.root_file {
+    background-color: transparent;
     border: none;
-    color: black;
-    padding: 15px 32px;
+    color: red;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
+    position: relative;
+}
+.seconditem {
+    margin-left: 50px;
+    position: relative;
+}
+.file_image{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: white;
 }

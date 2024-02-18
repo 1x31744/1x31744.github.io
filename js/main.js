@@ -14,17 +14,22 @@ edit_content.addEventListener('keydown', (e) => {
     if (e.key == "Enter") {
         let term_command = edit_content.textContent
         terminal_read_part.textContent += "\n"
-        terminal_read_part.textContent += "kxxpa@DESKTOP-ANJNVHI:~$" + term_command
+        terminal_read_part.textContent += "kxxpa@DESKTOP-ANJNVHI:~$ " + term_command
         switch (term_command) {
             case "help":
                 break;
             case "clear":
                 terminal_read_part.textContent = " "
                 break;
+            case "title":
+                terminal_read_part.textContent = "\n"
+                terminal_read_part.textContent += " ██ ▄█▀▒██   ██▒▒██   ██▒▄▄▄█████▓▓█████  ██▀███   ███▄ ▄███▓\n ██▄█▒ ▒▒ █ █ ▒░▒▒ █ █ ▒░▓  ██▒ ▓▒▓█   ▀ ▓██ ▒ ██▒▓██▒▀█▀ ██▒\n▓███▄░ ░░  █   ░░░  █   ░▒ ▓██░ ▒░▒███   ▓██ ░▄█ ▒▓██    ▓██░\n▓██ █▄  ░ █ █ ▒  ░ █ █ ▒ ░ ▓██▓ ░ ▒▓█  ▄ ▒██▀▀█▄  ▒██    ▒██\n▒██▒ █▄▒██▒ ▒██▒▒██▒ ▒██▒  ▒██▒ ░ ░▒████▒░██▓ ▒██▒▒██▒   ░██▒\n▒ ▒▒ ▓▒▒▒ ░ ░▓ ░▒▒ ░ ░▓ ░  ▒ ░░   ░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░   ░  ░\n░ ░▒ ▒░░░   ░▒ ░░░   ░▒ ░    ░     ░ ░  ░  ░▒ ░ ▒░░  ░      ░\n░ ░░ ░  ░    ░   ░    ░    ░         ░     ░░   ░ ░      ░   \n░  ░    ░    ░   ░    ░              ░  ░   ░            ░\n\nWelcome to my portfolio!\nType help to see commands to learn about me!\nOr, you can use the buttons in the tab bar to open windows.\n "
             case "about":
                 break;
             case "who":
                 break;
+            default:
+                terminal_read_part.textContent += "\nUnrecognized command: '" + term_command+ "', type 'help' to see all available commands."
         }
         console.log(term_command)
         edit_content.textContent = "";

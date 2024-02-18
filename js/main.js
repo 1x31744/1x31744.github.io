@@ -1,6 +1,5 @@
 /* make terminal via non editable div and editable div */
 let terminal_read_part = document.getElementById("terminalReadspace")
-terminal_read_part.innerHTML = "hello <br> hi"
 let edit_content = document.getElementById("termedit")
 
 const terminal = new WinBox("Terminal",{
@@ -8,8 +7,30 @@ const terminal = new WinBox("Terminal",{
     border: 4,
     width: '800px',
     height: '400px',
-    mount: document.getElementById("content").cloneNode(true),
+    mount: document.getElementById("content"),
 });
+
+edit_content.addEventListener('keydown', (e) => {
+    if (e.key == "Enter") {
+        let term_command = edit_content.textContent
+        terminal_read_part.textContent += "\n"
+        terminal_read_part.textContent += "kxxpa@DESKTOP-ANJNVHI:~$" + term_command
+        switch (term_command) {
+            case "help":
+                break;
+            case "clear":
+                terminal_read_part.textContent = " "
+                break;
+            case "about":
+                break;
+            case "who":
+                break;
+        }
+        console.log(term_command)
+        edit_content.textContent = "";
+    }
+})
+
 terminal.removeControl("wb-close")
 
 

@@ -17,8 +17,6 @@ h1 {
     font-family: monospace;
     white-space: pre;
     text-align: center;
-
-    /* how to center a element */
     position: absolute;
     left: 50%;
     top: 50%;
@@ -35,17 +33,26 @@ h1 {
     
 }
 .terminalWritespace {
-    background: white;
+    padding: 0;
+    font-family: monospace;
+
+    white-space: pre;
     color: red;
     display: flex;
 }
 .terminalReadspace {
+    font-family: monospace;
     color:red;
     break-after: always;
+    white-space: pre;
 }
 .termedit {
-    width: 700px;
+    padding-top: 2px;
+    width: 100%;
     word-wrap: break-word;
+    height: 1em;
+    overflow: hidden;
+    outline: 0px solid transparent;
 }
 #content {
 }

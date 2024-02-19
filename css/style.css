@@ -6,6 +6,7 @@ p {
 }
 h1 {
     color: red;
+    font-family: monospace;
 }
 h2 {
     color: red;
@@ -20,6 +21,7 @@ h2 {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    user-select: none;
 }
 
 .wb-body {
@@ -79,6 +81,7 @@ h2 {
     display: inline-block;
     font-size: 20px;
     cursor: pointer;
+    font-family: monospace;
 }
 .seconditem {
     background-color: transparent;
@@ -89,9 +92,14 @@ h2 {
     display: inline-block;
     font-size: 20px;
     cursor: pointer;
+    float: left;
+    clear: left;
+    font-family: monospace;
 }
 .file_image{
     width: 40px;
     height: 40px;
-    background: white;
+}
+.second_column {
+    display: block;
 }

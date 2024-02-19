@@ -64,15 +64,15 @@ edit_content.addEventListener('keydown', (e) => {
 terminal.removeControl("wb-close")
 
 
-let b1 = document.getElementById('button1');
-b1.addEventListener('click', () => {
-    element.innerHTML = "<p>haiii :3</p>"
-});
-
-let rootfile = document.getElementById('root_button');
+let b1 = document.getElementById('root_button');
+let second_column = document.getElementById('second_column')
 let root_visible = true
-rootfile.addEventListener('click', () => {
-    let second_column = document.getElementById('second_column')
-    root_visible = !root_visible;
-    second_column.hidden = root_visible;
-}) 
+b1.addEventListener('click', () => {
+    root_visible = !root_visible
+    if (root_visible) {
+        second_column.style.visibility = 'hidden'
+    }
+    else {
+        second_column.style.visibility = 'visible'
+    }
+});

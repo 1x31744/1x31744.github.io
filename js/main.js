@@ -68,3 +68,11 @@ let b1 = document.getElementById('button1');
 b1.addEventListener('click', () => {
     element.innerHTML = "<p>haiii :3</p>"
 });
+
+let rootfile = document.getElementById('root_button');
+let root_visible = true
+rootfile.addEventListener('click', () => {
+    let second_column = document.getElementById('second_column')
+    root_visible = !root_visible;
+    second_column.hidden = root_visible;
+}) 

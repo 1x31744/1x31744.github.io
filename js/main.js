@@ -6,7 +6,7 @@ let about_content = document.getElementById("about_content")
 const files = new WinBox("Files", {
     background: "#FF0000",
     border: 4,
-    width: '500px',
+    width: '550px',
     height: '800px',
     x: "10%",
     y: "center",
@@ -63,11 +63,11 @@ edit_content.addEventListener('keydown', (e) => {
 
 terminal.removeControl("wb-close")
 
-
-let b1 = document.getElementById('root_button');
+/* folder buttons */
+let root_folder = document.getElementById('root_button');
 let second_column = document.getElementById('second_column')
-let root_visible = true
-b1.addEventListener('click', () => {
+let root_visible = false
+root_folder.addEventListener('click', () => {
     root_visible = !root_visible
     if (root_visible) {
         second_column.style.visibility = 'hidden'
@@ -75,4 +75,42 @@ b1.addEventListener('click', () => {
     else {
         second_column.style.visibility = 'visible'
     }
+});
+let projects_folder = document.getElementById('projects_file');
+let projects_column = document.getElementById('projects_column')
+let projects_visible = false
+projects_folder.addEventListener('click', () => {
+    projects_visible = !projects_visible
+    if (projects_visible) {
+        projects_column.style.display = 'none'
+    }
+    else {
+        projects_column.style.display = 'block'
+    }
+});
+
+/* file buttons */
+
+let about_file = document.getElementById("about_button")
+about_file.addEventListener('click', () => {
+    const aboutBox = new WinBox({
+        title: 'About Me',
+        background: "#FF0000",
+        border: 4,
+        height: '400px',
+        width: '400px',
+        mount: document.getElementById("about_content").cloneNode(true),
+    })
+});
+
+let ray_proj_button = document.getElementById("ray_proj_button")
+ray_proj_button.addEventListener('click', () => {
+    const rayProjBox = new WinBox({
+        title: 'Ray Tracer',
+        background: "#FF0000",
+        border: 4,
+        height: '600px',
+        width: '800px',
+        mount: document.getElementById("ray_proj_content").cloneNode(true),
+    })
 });

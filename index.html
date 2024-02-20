@@ -60,32 +60,60 @@ Or, you can use the buttons in the tab bar to open windows.
                 <p>Programming is what i mainly do in my freetime, I love it, I've made many projects that i've just done for fun.</p>
                 <p>These include stuff like: A ray tracer, an abstract syntax tree programming language, a chip 8 interpreter, and i'm probably making more projects as you're reading this.</p>
             </div>
+            <div id="ray_proj_content" class="info_pages">
+                <h2>cpu_ray_tracer:#<span class="cursor"></span></h2>
+                <img src="images/quantamax/30 samples.png" style="height: 500px; width: 500px; display: block; margin-left: auto; margin-right: auto;">
+                <p>This project models light using common ray tracing methods, and some path tracing for indirect lighting.</p>
+                <p>This project was made in rust, and after this i intend to make another ray tracer built using GPU computing.</p>
+                <p>Making the ray tracer was really fun, as building up, the images generated slowly got more and more realistic, and it was really nice to show friends and family.</p>
+                <p>The goal of this project was to learn more about ray tracing as a method of 3D rendering, I intend to do a Rasterizer in the future.</p>
+            </div>
             <div id="files_content" class="files_content">
                 <button class="root_file" id="root_button">
                     <img src="folder.png" class="file_image">
                     <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Root:/></p>
                 </button>
                 <div></div>
-                <div id="second_column" class="second_column"> 
-                    <button id="file_button" class="seconditem">
+                <div id="second_column" class="column"> 
+                    <button id="about_button" class="seconditem">
                         <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">About_Me:/></p>
+                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">About_Me.ty</p>
                     </button>
-                    <button id="projects_button" class="seconditem">
+                    <button id="projects_file" class="seconditem">
                         <img src="folder.png" class="file_image">
                         <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Projects:/></p>
                     </button>
+                    <div id="projects_column" class="column">
+                        <button id="ray_proj_button" class="thirditem">
+                            <img src="file.png" class="file_image">
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Ray_Tracer.proj</p>
+                        </button>
+                        <button id="steel_proj_button" class="thirditem">
+                            <img src="file.png" class="file_image">
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Steel_Programming_Language.proj</p>
+                        </button>
+                        <button id="chip8_proj_button" class="thirditem">
+                            <img src="file.png" class="file_image">
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Chip8_Emulator.proj</p>
+                        </button>
+                    </div>
                     <button id="blog_button" class="seconditem">
                         <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Blog:/></p>
+                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Blog.ty</p>
                     </button>
-                    <button id="github_button" class="seconditem">
+                    <a href="https://github.com/kxxpa">
+                    <button href="https://www.w3schools.com" id="github_button" class="seconditem">
                         <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Github:/></p>
+                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Github.ty</p>
                     </button>
-                    <button id="documents" class="seconditem">
+                    </a>
+                    <button id="documents_button" class="seconditem">
                         <img src="folder.png" class="file_image">
                         <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Documents:/></p>
+                    </button>
+                    <button id="contact_button" class="seconditem">
+                        <img src="file.png" class="file_image">
+                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Contact.ty</p>
                     </button>
                 </div>
             </div>

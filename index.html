@@ -4,139 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kxxpa</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="winbox.bundle.min.js" as="script">
+    <title>Kxxpa</title>
+    <script>
+        // JavaScript code for device detection and redirection
+        // This will be kept minimal, only for redirecting to appropriate versions
+        window.onload = function() {
+            // Check if the device is mobile or desktop and redirect accordingly
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile || window.innerHeight <= 768 || window.innerWidth <= 768) {
+                console.log("ismobile")
+                window.location.href = 'index_mobile.html';
+            } else {
+                window.location.href = 'index_desktop.html';
+            }
+        };
+    </script>
+    
 </head>
 <body>
-    <div class="topbar">
-        <h1> Tyler Thompson </h1>
-    </div>
-    <p class="name">
-████████╗██╗   ██╗██╗     ███████╗██████╗     ████████╗██╗  ██╗ ██████╗ ███╗   ███╗██████╗ ███████╗ ██████╗ ███╗   ██╗
-╚══██╔══╝╚██╗ ██╔╝██║     ██╔════╝██╔══██╗    ╚══██╔══╝██║  ██║██╔═══██╗████╗ ████║██╔══██╗██╔════╝██╔═══██╗████╗  ██║
-   ██║    ╚████╔╝ ██║     █████╗  ██████╔╝       ██║   ███████║██║   ██║██╔████╔██║██████╔╝███████╗██║   ██║██╔██╗ ██║
-   ██║     ╚██╔╝  ██║     ██╔══╝  ██╔══██╗       ██║   ██╔══██║██║   ██║██║╚██╔╝██║██╔═══╝ ╚════██║██║   ██║██║╚██╗██║
-   ██║      ██║   ███████╗███████╗██║  ██║       ██║   ██║  ██║╚██████╔╝██║ ╚═╝ ██║██║     ███████║╚██████╔╝██║ ╚████║
-   ╚═╝      ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝       ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═╝     ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝
-
-
-
-█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗
-╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝
-
-
-
-    ██╗  ██╗██╗  ██╗██╗  ██╗██████╗  █████╗ 
-    ██║ ██╔╝╚██╗██╔╝╚██╗██╔╝██╔══██╗██╔══██╗
-    █████╔╝  ╚███╔╝  ╚███╔╝ ██████╔╝███████║
-    ██╔═██╗  ██╔██╗  ██╔██╗ ██╔═══╝ ██╔══██║
-    ██║  ██╗██╔╝ ██╗██╔╝ ██╗██║     ██║  ██║
-    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  ╚═╝</p>
-
-        <div id="backstore" style="display: none">
-            <div id="term_content" class="term_content">
-                <div id="terminalReadspace" class="terminalReadspace">
- ██ ▄█▀▒██   ██▒▒██   ██▒▄▄▄█████▓▓█████  ██▀███   ███▄ ▄███▓
- ██▄█▒ ▒▒ █ █ ▒░▒▒ █ █ ▒░▓  ██▒ ▓▒▓█   ▀ ▓██ ▒ ██▒▓██▒▀█▀ ██▒
-▓███▄░ ░░  █   ░░░  █   ░▒ ▓██░ ▒░▒███   ▓██ ░▄█ ▒▓██    ▓██░
-▓██ █▄  ░ █ █ ▒  ░ █ █ ▒ ░ ▓██▓ ░ ▒▓█  ▄ ▒██▀▀█▄  ▒██    ▒██ 
-▒██▒ █▄▒██▒ ▒██▒▒██▒ ▒██▒  ▒██▒ ░ ░▒████▒░██▓ ▒██▒▒██▒   ░██▒
-▒ ▒▒ ▓▒▒▒ ░ ░▓ ░▒▒ ░ ░▓ ░  ▒ ░░   ░░ ▒░ ░░ ▒▓ ░▒▓░░ ▒░   ░  ░
-░ ░▒ ▒░░░   ░▒ ░░░   ░▒ ░    ░     ░ ░  ░  ░▒ ░ ▒░░  ░      ░
-░ ░░ ░  ░    ░   ░    ░    ░         ░     ░░   ░ ░      ░   
-░  ░    ░    ░   ░    ░              ░  ░   ░            ░         
-
-Welcome to my portfolio!
-Type help to see commands to learn about me!
-Or, you can use the buttons in the tab bar to open windows.
- </div>
-                <div class="terminalWritespace">kxxpa@DESKTOP-ANJNVHI:~$ <div contenteditable="true" id="termedit" class="termedit"></div></div>
-            </div>
-            <div id="about_content" class="info_pages">
-                <h2>about_me:#<span class="cursor"></span></h2>
-                <p>My name is Tyler Thompson, I go online as Kxxpa, I have been programming for 5 years</p>
-                <p>I am fluent in many programming languages, these include C++, Python, Rust. My favorite one is split between Rust and C++.</p>
-                <p>Programming is what i mainly do in my freetime, I love it, I've made many projects that i've just done for fun.</p>
-                <p>These include stuff like: A ray tracer, an abstract syntax tree programming language, a chip 8 interpreter, and i'm probably making more projects as you're reading this.</p>
-            </div>
-            <div id="ray_proj_content" class="info_pages">
-                <h2>cpu_ray_tracer:#<span class="cursor"></span></h2>
-                <img src="images/quantamax/30 samples.png" style="height: 500px; width: 500px; display: block; margin-left: auto; margin-right: auto;">
-                <p>This project models light using common ray tracing methods, and some path tracing for indirect lighting.</p>
-                <p>This project was made in rust, and after this i intend to make another ray tracer built using GPU computing.</p>
-                <p>Making the ray tracer was really fun, as building up, the images generated slowly got more and more realistic, and it was really nice to show friends and family.</p>
-                <p>The goal of this project was to learn more about ray tracing as a method of 3D rendering, I intend to do a Rasterizer in the future.</p>
-            </div>
-            <div id="chip8_content" class="info_pages">
-                <h2>chip_8_emulator:#<span class="cursor"></span></h2>
-                <p>This project emulates games made for the chip 8 emulator</p>
-                <p>Getting the final result was amazing, but i will leave warning that it doesn't work with a minorty of chip 8 software, im pretty sure this is because of how certain games think instructions are handles differently, so if i make one game work, another wont</p>
-                <p>I'm a massive fan of retro stuff, so this project was pretty much perfect for me, even if it is the easiest project in the emulation, however i intend to move on to emulating the NES, so that's quite the step</p>
-                <p>Prior to making this i had a streak of coding in assembly (x86 to be exact), and i think a project like this has majorly developed my understanding of how CPU's work, as encoding my own instruction set is a pretty good way to gain experience</p>
-            </div>
-            <div id="steel_proj_content" class="info_pages">
-                <h2>steel_interpreter:#<span class="cursor"></span></h2>
-                <p>This project interprets code for my own programming language :o</p>
-                <p>Although, this interpreter just executes code directly in rust, after doing a bunch of tree walking, parsing and tokenization.</p>
-                <p>But, even if this project was simple, i gained a massive ammount of exerience and learned alot, this was my first time making a relitively big project in rust (or in any systems programming language)</p>
-                <p>This is the main project that sparked the fun in programming for me, and made me start programming every day, so i would reccomend interpretation/compiling to litirally anyone who codes.</p>
-            </div>
-            <div id="contact_content" class="info_pages">
-                <h2>contact_me:#<span class="cursor"></span></h2>
-                <p>You can contact me for any reason whatsoever, if you want to collaborate on a project, work with me or just want to talk. Go ahead!</p>
-                <p>You can send me an email over at koopahello@gmail.com</p>
-            </div>
-            <div id="files_content" class="files_content">
-                <button class="root_file" id="root_button">
-                    <img src="folder.png" class="file_image">
-                    <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Root:/></p>
-                </button>
-                <div></div>
-                <div id="second_column" class="column"> 
-                    <button id="about_button" class="seconditem">
-                        <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">About_Me.ty</p>
-                    </button>
-                    <button id="projects_file" class="seconditem">
-                        <img src="folder.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Projects:/></p>
-                    </button>
-                    <div id="projects_column" class="column">
-                        <button id="ray_proj_button" class="thirditem">
-                            <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Ray_Tracer.proj</p>
-                        </button>
-                        <button id="steel_proj_button" class="thirditem">
-                            <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Steel_Programming_Language.proj</p>
-                        </button>
-                        <button id="chip8_proj_button" class="thirditem">
-                            <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Chip8_Emulator.proj</p>
-                        </button>
-                    </div>
-                    <button id="blog_button" class="seconditem">
-                        <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Blog.ty</p>
-                    </button>
-                    <a href="https://github.com/kxxpa">
-                    <button href="https://www.w3schools.com" id="github_button" class="seconditem">
-                        <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Github.ty</p>
-                    </button>
-                    </a>
-                    <button id="documents_button" class="seconditem">
-                        <img src="folder.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Documents:/> (none for now)</p>
-                    </button>
-                    <button id="contact_button" class="seconditem">
-                        <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Contact.ty</p>
-                    </button>
-                </div>
-            </div>
-        </div>
-    <script src="js/winbox.bundle.js"></script>
-    <script src="js/main.js"></script>
 </body>
+</html>

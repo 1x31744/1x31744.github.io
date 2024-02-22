@@ -1,0 +1,79 @@
+body {
+    background-color: rgb(0, 0, 0);
+}
+p {
+    color: red;
+    overflow-wrap: break-word;
+}
+h1 {
+    color: red;
+    font-family: monospace;
+    user-select: none;
+}
+h2 {
+    color: red;
+    font-size: 25px;
+}
+h3 {
+    color: red;
+    font-size: 25px;
+    text-align: center;
+}
+.topbar {
+    background: black;
+    justify-content: space-around;
+    display: flex;
+    width: 100%;
+    font-family: monospace;
+    border-bottom: 2px solid red;
+}
+.files_content {
+    font-family: monospace;
+    width: 100%;
+}
+.root_file {
+    background-color: transparent;
+    border: none;
+    color: red;
+    text-align: center;
+    display: inline-block;
+    font-size: 1.0rem;
+    cursor: pointer;
+    font-family: monospace;
+}
+.seconditem {
+    background-color: transparent;
+    margin-left: 20px;
+    border: none;
+    color: red;
+    text-align: center;
+    font-size: 1.0rem;
+    cursor: pointer;
+    float: left;
+    clear: left;
+    font-family: monospace;
+}
+.thirditem {
+    background-color: transparent;
+    margin-left: 40px;
+    border: none;
+    color: red;
+    text-align: center;
+    font-size: 1rem;
+    cursor: pointer;
+    float: left;
+    clear: left;
+    font-family: monospace;
+}
+.file_image{
+    width: 2.2rem;
+    height: 2.2rem;
+}
+.column {
+    display: block;
+}
+.info_pages {
+    font-family: monospace;
+    font-size: 17px;
+    display: none;
+}

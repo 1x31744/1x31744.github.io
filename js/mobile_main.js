@@ -1,6 +1,17 @@
 let files_content = document.getElementById('files_content')
 // TODO: make a var that stores the prior page and then go to that when the back phone button used
 
+let name_button = document.getElementById('name_button')
+name_button.addEventListener('click', () => {
+    about_content.style.display = 'none'
+    contact_content.style.display = 'none'
+    ray_proj_content.style.display = 'none'
+    steel_proj_content.style.display = 'none'
+    chip8_proj_content.style.display = 'none'
+
+    files_content.style.display = "block"
+})
+
 /* folder buttons */
 let root_folder = document.getElementById('root_button');
 let second_column = document.getElementById('second_column')

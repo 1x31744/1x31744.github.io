@@ -1,5 +1,6 @@
 // do this but with a div instead
 
+/*
 new WinBox("Posts", {
     top: "10%",
     right: "70%",
@@ -18,3 +19,4 @@ new WinBox("Viewer", {
     minwidth: "100%",
     background: "#FF0000"
 });
+*/

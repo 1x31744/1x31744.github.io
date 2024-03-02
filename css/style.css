@@ -131,3 +131,42 @@ html {
     scrollbar-color: red #111;
     scrollbar-width: thin;
 }
+
+/* for blog */
+.blog_window {
+    display:inline-flex;
+    height: 100%;
+    width: 100%;
+}
+.blog_selector {
+    overflow: auto;
+    width: 40%;
+    float: left;
+    height: 90vh;
+    border-right: 2px solid red;
+    border-left: 2px solid red;
+    border-bottom: 2px solid red;
+}
+.blog_viewer {
+    overflow: auto;
+    width: 60%;
+    height: 90vh;
+    border-bottom: 2px solid red;
+    border-right: 2px solid red;
+}
+
+.blog_selector_title {
+    overflow: hidden;
+    position: fixed;
+    background-color: red;
+    height: 20px;
+    color: black;
+    margin-bottom: 15px;
+    font-family: monospace;
+    font-size: large;
+    width: 100%;
+    overflow-x: hidden;
+}
+.blog_files_content {
+    font-family: monospace;
+}

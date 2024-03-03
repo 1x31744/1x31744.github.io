@@ -1,22 +1,40 @@
-// do this but with a div instead
+let blog_content = document.getElementById('blog_content');
 
-/*
-new WinBox("Posts", {
-    top: "10%",
-    right: "70%",
-    bottom: "0%",
-    minheight: "100%",
-    minwidth: "100%",
-    border: 4,
-    background: "#FF0000"
+// folder buttons
+let root_folder = document.getElementById('root_button');
+let second_column = document.getElementById('second_column')
+let root_visible = false
+root_folder.addEventListener('click', () => {
+    root_visible = !root_visible
+    if (root_visible) {
+        second_column.style.visibility = 'hidden'
+    }
+    else {
+        second_column.style.visibility = 'visible'
+    }
 });
-new WinBox("Viewer", {
-    top: "10%",
-    border: 4,
-    left: "30%",
-    bottom: "0%",
-    minheight: "100%",
-    minwidth: "100%",
-    background: "#FF0000"
+let os_folder = document.getElementById('OS_file');
+let os_column = document.getElementById('os_column')
+let os_visible = true
+os_folder.addEventListener('click', () => {
+    os_visible = !os_visible
+    if (os_visible) {
+        os_column.style.display = 'none'
+    }
+    else {
+        os_column.style.display = 'block'
+    }
 });
-*/
+
+//file buttons
+let about_file = document.getElementById("about_button")
+let about_content = document.getElementById("about_content")
+about_file.addEventListener('click', () => {
+    blog_content.innerHTML = about_content.innerHTML
+});
+
+let contact_file = document.getElementById("contact_button")
+let contact_content = document.getElementById("contact_content")
+contact_file.addEventListener('click', () => {
+    blog_content.innerHTML = contact_content.innerHTML
+});

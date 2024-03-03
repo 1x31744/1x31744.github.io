@@ -25,45 +25,37 @@
                 </button>
                 <div></div>
                 <div id="second_column" class="column"> 
-                    <button id="about_button" class="seconditem">
-                        <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">About_Me.ty</p>
-                    </button>
-                    <button id="projects_file" class="seconditem">
+                    <button id="OS_file" class="seconditem">
                         <img src="folder.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Projects:/></p>
+                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">OS_Work:/></p>
                     </button>
-                    <div id="projects_column" class="column">
-                        <button id="ray_proj_button" class="thirditem">
+                    <div id="os_column" class="column" style="display: none;">
+                        <button id="os_part1_button" class="thirditem">
                             <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Ray_Tracer.proj</p>
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part I : Intro</p>
                         </button>
                         <button id="steel_proj_button" class="thirditem">
                             <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Steel_Programming_Language.proj</p>
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part II : We Need Theory</p>
                         </button>
                         <button id="chip8_proj_button" class="thirditem">
                             <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Chip8_Emulator.proj</p>
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part III : To be continued...</p>
                         </button>
                     </div>
-                    <button id="blog_button" class="seconditem">
-                        <img src="file.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Blog.ty</p>
-                    </button>
                     <a href="https://github.com/kxxpa">
                     <button href="https://www.w3schools.com" id="github_button" class="seconditem">
                         <img src="file.png" class="file_image">
                         <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Github.ty</p>
                     </button>
                     </a>
-                    <button id="documents_button" class="seconditem">
-                        <img src="folder.png" class="file_image">
-                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Documents:/> (none for now)</p>
-                    </button>
                     <button id="contact_button" class="seconditem">
                         <img src="file.png" class="file_image">
                         <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Contact.ty</p>
+                    </button>
+                    <button id="about_button" class="seconditem">
+                        <img src="file.png" class="file_image">
+                        <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">About.ty</p>
                     </button>
                 </div>
             </div>
@@ -73,10 +65,23 @@
             <div class="blog_selector_title">
                 VIEWER
             </div>
-            <div style="margin: 35px;"></div>
-            <p style="font-family: monospace; font-size: large;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Tortor condimentum lacinia quis vel eros. A scelerisque purus semper eget duis at. In nisl nisi scelerisque eu ultrices. Adipiscing commodo elit at imperdiet dui accumsan sit. Ipsum nunc aliquet bibendum enim facilisis gravida neque. Ultrices dui sapien eget mi proin sed libero. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Rhoncus urna neque viverra justo nec ultrices dui. Aliquam sem fringilla ut morbi tincidunt augue interdum. Blandit aliquam etiam erat velit scelerisque in dictum non consectetur. Semper eget duis at tellus at urna condimentum mattis pellentesque. Etiam erat velit scelerisque in dictum non. Amet est placerat in egestas erat imperdiet sed. Arcu felis bibendum ut tristique et egestas quis.
-
-                Volutpat blandit aliquam etiam erat. Orci a scelerisque purus semper eget duis at tellus. Ut etiam sit amet nisl. Scelerisque mauris pellentesque pulvinar pellentesque habitant. Sed turpis tincidunt id aliquet risus feugiat in. Sagittis vitae et leo duis ut diam. Malesuada fames ac turpis egestas sed tempus. Pellentesque sit amet porttitor eget dolor. Scelerisque purus semper eget duis at tellus at urna. Curabitur vitae nunc sed velit dignissim sodales ut eu sem. Congue quisque egestas diam in. Pretium quam vulputate dignissim suspendisse in.</p>
+            <div id="blog_content" class="blog_content" style="margin-top: 35px;">
+                <h2>Use the files to view content within my blog</h2>
+            </div>
+        </div>
+    </div>
+    <div id="backstore" style="display: none;">
+        <div id="about_content">
+            <h2>about_me:#<span class="cursor"></span></h2>
+            <p>My name is Tyler Thompson, I go online as Kxxpa, I have been programming for 5 years</p>
+            <p>I am fluent in many programming languages, these include C++, Python, Rust. My favorite one is split between Rust and C++.</p>
+            <p>Programming is what i mainly do in my freetime, I love it, I've made many projects that i've just done for fun.</p>
+            <p>These include stuff like: A ray tracer, an abstract syntax tree programming language, a chip 8 interpreter, and i'm probably making more projects as you're reading this.</p>
+        </div>
+        <div id="contact_content" class="info_pages">
+            <h2>contact_me:#<span class="cursor"></span></h2>
+            <p>You can contact me for any reason whatsoever, if you want to collaborate on a project, work with me or just want to talk. Go ahead!</p>
+            <p>You can send me an email over at koopahello@gmail.com</p>
         </div>
     </div>
     <script src="js/winbox.bundle.js"></script>

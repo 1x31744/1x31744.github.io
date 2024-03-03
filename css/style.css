@@ -157,7 +157,7 @@ html {
 
 .blog_selector_title {
     overflow: hidden;
-    position: fixed;
+    position: relative;
     background-color: red;
     height: 20px;
     color: black;
@@ -165,8 +165,13 @@ html {
     font-family: monospace;
     font-size: large;
     width: 100%;
-    overflow-x: hidden;
 }
 .blog_files_content {
     font-family: monospace;
+}
+.blog_content {
+    font-family: monospace;
+    font-size: large;
+    margin-left: 10px;
+    margin-right: 10px;
 }

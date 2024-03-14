@@ -37,8 +37,15 @@ let contact_content = document.getElementById("contact_content")
 contact_file.addEventListener('click', () => {
     blog_content.innerHTML = contact_content.innerHTML
 });
+
+//osbuttons
 let os1_file = document.getElementById("os_part1_button")
 let os1_content = document.getElementById("os1_content")
 os1_file.addEventListener('click', () => {
     blog_content.innerHTML = os1_content.innerHTML
+})
+let os2_file = document.getElementById("os_part2_button")
+let os2_content = document.getElementById("os2_content")
+os2_file.addEventListener('click', () => {
+    blog_content.innerHTML = os2_content.innerHTML
 })

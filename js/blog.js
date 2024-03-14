@@ -32,9 +32,13 @@ let about_content = document.getElementById("about_content")
 about_file.addEventListener('click', () => {
     blog_content.innerHTML = about_content.innerHTML
 });
-
 let contact_file = document.getElementById("contact_button")
 let contact_content = document.getElementById("contact_content")
 contact_file.addEventListener('click', () => {
     blog_content.innerHTML = contact_content.innerHTML
 });
+let os1_file = document.getElementById("os_part1_button")
+let os1_content = document.getElementById("os1_content")
+os1_file.addEventListener('click', () => {
+    blog_content.innerHTML = os1_content.innerHTML
+})

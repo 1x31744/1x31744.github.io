@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  });
+
 let blog_content = document.getElementById('blog_content');
 
 // folder buttons

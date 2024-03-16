@@ -7,6 +7,11 @@
     <title>Kxxpa</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="preload" href="winbox.bundle.min.js" as="script">
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/styles/xt256.min.css"
+    />
+    <!-- qtcreator-dark -->
 </head>
 <body>
     <div class="topbar">
@@ -91,7 +96,7 @@
                 and making my own operating system has always been a plan of mine. At the time of writing,
                 I have very little knowledge on how to make bootloaders and kernels (which is probably why os-dev has been so confusing for me).
                 And there are also very few resources online on how to make operating systems; they are either 1000-page university-level documents that
-                Don’t start at boot loading and mainly focus on the theory behind processes and paging—many operating concepts that will take months of
+                Don’t start at boot loading and mainly focus on the theory behind processes and paging, many operating concepts that will take months of
                 reading to get through, or are unfinished or small documents that do not provide enough info.</p>
 
             <p>Surprisingly, there are only a couple things online that are aimed at getting beginners started on operating system development.
@@ -102,14 +107,14 @@
                 and how C works. That’s all the required knowledge you would need to get started.</p>
 
             <p>Another thing to say is that I intend to use my writing style to only give you the necessary points for understanding the code.
-                behind a lot of the aspects behind OS development and not actually go into depth about all these types of topics, but I probably will write a
+                behind a lot of the aspects behind OS development and not actually go into depth about all these types of topics, but I probably will write
                 a few articles about the theory behind it all, as that is required to understand how BIOS and CPU architecture work, to start writing OS stuff.</p>
 
             <h2>Specifications</h2>
 
             <p>My operating system will work on x86 CPUs, will be stored on a virtual floppy disk, and will be made using C and ASM.
                 There will also be some other tools being used in order to make the development process a lot easier. Such as GDB,
-                to debug whatever I write, Makefiles in order to build the project fast, and Qemu in order to run the OS without having to reboot my system repeatedly.</p>
+                to debug whatever I write, Makefiles in order to build the project fast, and qemu in order to run the OS without having to reboot my system repeatedly.</p>
 
             <h2>Getting started : What's first?</h2>
 
@@ -138,19 +143,59 @@
         <div id="os2_content">
             <h1>Part II : Bootloading</h1>
             <h2>A few words...</h2>
-            <p>If love coding, you're probably eager to get straight into the programming and make something that functions, well good news, in this chapter we will end with a
-                fully functioning bootloader, that loads into a simple kernel that just loads a hello world message. How exiting!</p>
+            <p>If you love coding, you're probably eager to get straight into the programming and make something that functions, well good news, in this chapter we will end with a
+                fully functioning bootloader, that loads into a simple kernel that just loads a hello world message. How exciting!</p>
             
             <p>This also shouldn't take that many lines of code, although the instructions can be very complex, which i will try to explain to the best of my ability in this chapter.</p>
 
             <p>Sadly, if you like a hands on experience, the next chapter will cover alot of theory, but i will try to make it as consise and quick as possible, as i only try to cover
-                key points, that you can research later if you have any interest</p>
+                key points, that you can research later if you have any interest.</p>
 
             <h2>Printing in BIOS</h2>
 
-            <p></p>
+            <p>Mainly, to demonstrate how things work thoughtout this series of articles
+                i will be providing a block of code, and then explaining it further, after the block is provided
+                i will also be providing some comments on relitively ambigious lines of code
+            </p>
+            
+            <p>Here's some basic code i made for printing, which we will be expanding upon after explanation: </p>
+
+            <pre class="language-x86asm"><code>start:
+    mov ax, cs
+    mov ds, ax
+
+    mov si, title_string
+    call print_string
+
+    jmp $
+
+print_string:
+    mov ah, 0Eh ; bios number 0Eh, sets for teletype output function
+print_char:
+    lodsb ; loads byte at SI, into AL and increments SI
+
+    cmp al, 0 ; 0 stored in al if at end of string
+    je printing_finished
+
+    int 10h ;bios interrupt 0x10, to print char stored in AL
+
+    jmp print_char
+printing_finished:
+    ret
+
+title_string db 'Welcome to the lytlnybl bootloader!',0
+            </code></pre>
+
+            <h2 style="font-size: 20px;">The "start" section:</h2>
+            <p>Just a warning, alot of things you might have to take my word for, as there 
+                will things we need to do that cannot be explained in a couple of sentences, and would take 
+                quite alot of explanation, but i will try to answer all things that i have tried to make you take my word 
+                for in the more theory focused sections.
+            </p>
         </div>
     </div>
     <script src="js/winbox.bundle.js"></script>
     <script src="js/blog.js"></script>
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
+    <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/languages/x86asm.min.js"></script>
 </body>

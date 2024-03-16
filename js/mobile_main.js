@@ -74,3 +74,7 @@ chip8_proj_button.addEventListener('click', () => {
     files_content.style.display = 'none'
     chip8_proj_content.style.display = 'block'
 });
+let blog_button = document.getElementById("blog_button")
+blog_button.addEventListener('click', () => {
+    document.location.href = 'blog_desktop.html';
+});

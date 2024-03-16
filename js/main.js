@@ -32,7 +32,7 @@ edit_content.addEventListener('keydown', (e) => {
         terminal_read_part.textContent += "kxxpa@DESKTOP-ANJNVHI:~$ " + term_command
         switch (term_command) {
             case "help":
-                terminal_read_part.textContent += "\n\n  about : learn about me and what i enjoy doing\n  social : see the social media i have\n  projects : see a list commands to see the projects i've made\n  clear : clear the terminal\n  title : display the title in terminal\n  contact : all the ways you can contact me\n  help : you just used this\n "
+                terminal_read_part.textContent += "\n\n  about : learn about me and what i enjoy doing\n  social : see the social media i have\n  projects : see a list commands to see the projects i've made\n  clear : clear the terminal\n  title : display the title in terminal\n  contact : all the ways you can contact me\n  blog : redirect to the page of my blog\n  help : you just used this\n "
                 break;
             case "clear":
                 terminal_read_part.textContent = " "
@@ -92,6 +92,14 @@ edit_content.addEventListener('keydown', (e) => {
                     width: '800px',
                     mount: document.getElementById("steel_proj_content").cloneNode(true),
                 });
+                break;
+            case "blog":
+                var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+                if (isMobile || document.innerHeight <= 768 || document.innerWidth <= 768) {
+                    document.location.href = 'blog_desktop.html';
+                } else {
+                    document.location.href = 'blog_desktop.html';
+                }
                 break;
             default:
                 terminal_read_part.textContent += "\nUnrecognized command: '" + term_command+ "', type 'help' to see all available commands."
@@ -189,4 +197,15 @@ chip8_proj_button.addEventListener('click', () => {
         width: '800px',
         mount: document.getElementById("chip8_content").cloneNode(true),
     });
+});
+
+let blog_button = document.getElementById("blog_button")
+blog_button.addEventListener('click', () => {
+        // Check if the device is mobile or desktop and redirect accordingly
+    var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile || document.innerHeight <= 768 || document.innerWidth <= 768) {
+        document.location.href = 'blog_desktop.html';
+    } else {
+        document.location.href = 'blog_desktop.html';
+    }
 });

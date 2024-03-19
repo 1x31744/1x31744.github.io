@@ -76,5 +76,5 @@ chip8_proj_button.addEventListener('click', () => {
 });
 let blog_button = document.getElementById("blog_button")
 blog_button.addEventListener('click', () => {
-    document.location.href = 'blog_desktop.html';
+    document.location.href = 'blog_mobile.html';
 });

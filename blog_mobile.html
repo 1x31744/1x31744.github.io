@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kxxpa</title>
     <link rel="icon" type="image/png" href="images\K.png"/>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/mobile.css">
     <link rel="preload" href="winbox.bundle.min.js" as="script">
     <link
     rel="stylesheet"
@@ -15,11 +15,15 @@
     <!-- qtcreator-dark -->
 </head>
 <body>
-    <div class="topbar">
-        <h1> Tyler Thompson </h1>
+    <div class="topbar" style="width: 100%;">
+        <button class="root_file" id="dropdown" style="display:inline-block;float:left;">
+            <img src="folder.png" class="file_image">
+            <p style="align-self: right; display: inline-block; transform: translate(0, -55%);">Blog:/></p>
+        </button>
+        <h1 style="display:block; margin: 0 auto; margin-top: 5px; padding-right: 10dvb;"> Tyler Thompson </h1>
     </div>
     <div class="blog_window">
-        <div id="blog_selector" class="blog_selector">
+        <div id="blog_selector" class="blog_selector" style="display: none;">
             <div class="blog_selector_title">
                 FILES
             </div>
@@ -196,7 +200,7 @@ title_string db 'Welcome to the lytlnybl bootloader!',0
         </div>
     </div>
     <script src="js/winbox.bundle.js"></script>
-    <script src="js/blog.js"></script>
+    <script src="js/mobile_blog.js"></script>
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/highlight.min.js"></script>
     <script src="https://unpkg.com/@highlightjs/cdn-assets@11.7.0/languages/x86asm.min.js"></script>
 </body>

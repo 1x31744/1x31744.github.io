@@ -91,15 +91,12 @@ html {
 
 /* for blog */
 .blog_window {
-    display:inline-flex;
+    display:block;
     height: 100%;
     width: 100%;
 }
 .blog_selector {
     overflow: auto;
-    width: 40%;
-    float: left;
-    height: 90vh;
     border-right: 2px solid red;
     border-left: 2px solid red;
     border-bottom: 2px solid red;

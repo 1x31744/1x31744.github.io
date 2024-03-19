@@ -8,14 +8,13 @@ let dropdown_content = document.getElementById("blog_selector");
 let dropdown_button = document.getElementById("dropdown");
 let drop_visible = false
 dropdown_button.addEventListener('click', () => {
-    root_visible = !root_visible
     if (root_visible) {
         dropdown_content.style.display = 'none'
     }
     else {
         dropdown_content.style.display = 'block'
     }
-
+    root_visible = !root_visible
 })
 
 let blog_content = document.getElementById('blog_content');

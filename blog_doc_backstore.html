@@ -1,0 +1,124 @@
+<html>
+<body>
+<!--make this backstore work please-->
+<div id="backstore" style="display: none;">
+    <div id="about_content">
+        <h2>about_me:#<span class="cursor"></span></h2>
+        <p>My name is Tyler Thompson, I go online as Kxxpa, I have been programming for 5 years</p>
+        <p>I am fluent in many programming languages, these include C++, Python, Rust. My favorite one is split between Rust and C++.</p>
+        <p>Programming is what i mainly do in my freetime, I love it, I've made many projects that i've just done for fun.</p>
+        <p>These include stuff like: A ray tracer, an abstract syntax tree programming language, a chip 8 interpreter, and i'm probably making more projects as you're reading this.</p>
+    </div>
+    <div id="contact_content" class="info_pages">
+        <h2>contact_me:#<span class="cursor"></span></h2>
+        <p>You can contact me for any reason whatsoever, if you want to collaborate on a project, work with me or just want to talk. Go ahead!</p>
+        <p>You can send me an email over at koopahello@gmail.com</p>
+    </div>
+    <div id="os1_content">
+        <h1 style="font-size: 40px;"><u>Making an OS using NASM and C</u></h1>
+        <h1>Part I : Intro</h1>
+        <h2>Preface</h2>
+        <p>After looking at the os-dev wiki, I found many of the tutorials to be extremely confusing and aimless.
+            and making my own operating system has always been a plan of mine. At the time of writing,
+            I have very little knowledge on how to make bootloaders and kernels (which is probably why os-dev has been so confusing for me).
+            And there are also very few resources online on how to make operating systems; they are either 1000-page university-level documents that
+            Don’t start at boot loading and mainly focus on the theory behind processes and paging, many operating concepts that will take months of
+            reading to get through, or are unfinished or small documents that do not provide enough info.</p>
+
+        <p>Surprisingly, there are only a couple things online that are aimed at getting beginners started on operating system development.
+            I aim to try and demystify the process of writing your own operating system in this blog without it taking up too much of your time.
+            If there are any problems or things that confuse you in any of my articles, please email me about them, as I am eager to improve both my technical writing and programming.</p>
+
+        <p>Although this series of articles is aimed at beginners, I recommend making sure you know a bit about how any flavor of assembly works.
+            and how C works. That’s all the required knowledge you would need to get started.</p>
+
+        <p>Another thing to say is that I intend to use my writing style to only give you the necessary points for understanding the code.
+            behind a lot of the aspects behind OS development and not actually go into depth about all these types of topics, but I probably will write
+            a few articles about the theory behind it all, as that is required to understand how BIOS and CPU architecture work, to start writing OS stuff.</p>
+
+        <h2>Specifications</h2>
+
+        <p>My operating system will work on x86 CPUs, will be stored on a virtual floppy disk, and will be made using C and ASM.
+            There will also be some other tools being used in order to make the development process a lot easier. Such as GDB,
+            to debug whatever I write, Makefiles in order to build the project fast, and qemu in order to run the OS without having to reboot my system repeatedly.</p>
+
+        <h2>Getting started : What's first?</h2>
+
+        <p>The first step in making an operating system is to either set up or make a bootloader.
+            I will be making one; if you wanted to set one up, you could probably set up the kernel you write with GRUB.
+            In order to make a bootloader, there will only be 3 steps.</p>
+
+        <p>Step 1: printing in bios that we are booting the OS.</p>
+        <p>Step 2: reading the hard disk in the right place and loading the kernel into memory (in bios).</p>
+        <p>Step 3: giving access to the kernel, by jumping to where we loaded the kernel into memory (still in bios).</p>
+
+        <p>We also need to remember that we are programming assembly without an operating system.
+            This means that we can’t use any OS interrupts in order to print to the screen, read from certain file locations,
+            or anything else we would have taken for granted when doing our regular programming.</p>
+
+        <p>This is a good decomposition of the problem of writing our own bootloader; even now, you could even stop reading.
+            and google how to do these steps or even ask ChatGPT, it’s good to decompose problems for a massive subject like making your own OS,
+            It can help us learn about the aspects rather than being overwhelmed with information when we google “how to make a bootloader."
+            We can google “how to print to bios in NASM” and “how to read from a hard disc in bios NASM.”.</p>
+
+        <p>Even printing is complex without an operating system, so don’t get hung up if you take an hour trying to do any aspect of what
+            we’re doing, especially if you’re just sitting there trying to understand some instructions or code (I have done this many times).</p>
+
+        <p>In the next chapter, I will cover and go step by step with you on how to produce the bootloader using the steps I have laid out.</p>
+    </div>
+    <div id="os2_content">
+        <h1>Part II : Bootloading</h1>
+        <h2>A few words...</h2>
+        <p>If you love coding, you're probably eager to get straight into the programming and make something that functions, well good news, in this chapter we will end with a
+            fully functioning bootloader, that loads into a simple kernel that just loads a hello world message. How exciting!</p>
+        
+        <p>This also shouldn't take that many lines of code, although the instructions can be very complex, which i will try to explain to the best of my ability in this chapter.</p>
+
+        <p>Sadly, if you like a hands on experience, the next chapter will cover alot of theory, but i will try to make it as consise and quick as possible, as i only try to cover
+            key points, that you can research later if you have any interest.</p>
+
+        <h2>Printing in BIOS</h2>
+
+        <p>Mainly, to demonstrate how things work thoughtout this series of articles
+            i will be providing a block of code, and then explaining it further, after the block is provided
+            i will also be providing some comments on relitively ambigious lines of code
+        </p>
+        
+        <p>Here's some basic code i made for printing, which we will be expanding upon after explanation: </p>
+
+        <pre class="language-x86asm"><code>start:
+mov ax, cs
+mov ds, ax
+
+mov si, title_string
+call print_string
+
+jmp $
+
+print_string:
+mov ah, 0Eh ; bios number 0Eh, sets for teletype output function
+print_char:
+lodsb ; loads byte at SI, into AL and increments SI
+
+cmp al, 0 ; 0 stored in al if at end of string
+je printing_finished
+
+int 10h ;bios interrupt 0x10, to print char stored in AL
+
+jmp print_char
+printing_finished:
+ret
+
+title_string db 'Welcome to the lytlnybl bootloader!',0
+        </code></pre>
+
+        <h2 style="font-size: 20px;">The "start" section:</h2>
+        <p>Just a warning, alot of things you might have to take my word for, as there 
+            will things we need to do that cannot be explained in a couple of sentences, and would take 
+            quite alot of explanation, but i will try to answer all things that i have tried to make you take my word 
+            for in the more theory focused sections.
+        </p>
+    </div>
+</div>
+</body>
+</html>

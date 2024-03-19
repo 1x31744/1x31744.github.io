@@ -50,11 +50,15 @@ let about_file = document.getElementById("about_button")
 let about_content = document.getElementById("about_content")
 about_file.addEventListener('click', () => {
     blog_content.innerHTML = about_content.innerHTML
+    dropdown_content.style.display = 'none'
+    root_visible = !root_visible
 });
 let contact_file = document.getElementById("contact_button")
 let contact_content = document.getElementById("contact_content")
 contact_file.addEventListener('click', () => {
     blog_content.innerHTML = contact_content.innerHTML
+    dropdown_content.style.display = 'none'
+    root_visible = !root_visible
 });
 
 //osbuttons
@@ -62,10 +66,14 @@ let os1_file = document.getElementById("os_part1_button")
 let os1_content = document.getElementById("os1_content")
 os1_file.addEventListener('click', () => {
     blog_content.innerHTML = os1_content.innerHTML
+    dropdown_content.style.display = 'none'
+    root_visible = !root_visible
 })
 let os2_file = document.getElementById("os_part2_button")
 let os2_content = document.getElementById("os2_content")
 os2_file.addEventListener('click', () => {
     blog_content.innerHTML = os2_content.innerHTML
+    dropdown_content.style.display = 'none'
+    root_visible = !root_visible
 })
 

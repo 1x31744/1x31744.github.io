@@ -203,7 +203,7 @@ dw 0xAA55 ; specifies the end of the bootloader, recognised by bios
 mov ds, ax
             </code></pre>
             <p>
-                With these two lines, the first line loads the value <pre><code class="language-x86asm">mov ax 07C0h</code></pre> into the 
+                With these two lines, the first line loads the value <code class="language-x86asm">07C0h</code>into the 
                 ax register, this is the segment where the bootloader code is loaded by the bios, This
                 is something when we will further cover when i go over x86 Segmentation, as that's a large 
                 topic in x86.

@@ -194,6 +194,28 @@ dw 0xAA55 ; specifies the end of the bootloader, recognised by bios
                 quite alot of explanation, but i will try to answer all things that i have tried to make you take my word 
                 for in the more theory focused sections.
             </p>
+            <p>
+                Now, the first two lines of code (inside of the start section) are things that i cannot provide that much context on,
+                due to them being entangled with a wide concept in x86 programming.
+                But i will briefly explain here.
+            </p>
+            <pre><code>mov ax, 07C0h
+mov ds, ax
+            </code></pre>
+            <p>
+                With these two lines, the first line loads the value <pre><code class="language-x86asm">mov ax 07C0h</code></pre> into the 
+                ax register, this is the segment where the bootloader code is loaded by the bios, This
+                is something when we will further cover when i go over x86 Segmentation, as that's a large 
+                topic in x86.
+            </p>
+            <p>
+                Just after that we set ds to the value in ax, this will set the ds register,
+                which represents the data segment to the value of AX, ensuring that memory accesses within the bootloader
+                use the correct segment, if we didn't include this line, later when we would try to print characters, we might notice
+                that our code would just be printing a random ammount or no characters at all. This will be because it will be reading from 
+                memory addresses not relative to the segment that the bootloader code is running in, this will also be covered in more detail in the next 
+                segment of articles. (pun not intended)
+            </p>
         </div>
     </div>
     <script src="js/winbox.bundle.js"></script>

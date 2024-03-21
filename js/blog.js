@@ -3,6 +3,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
       hljs.highlightElement(block);
     });
   });
+  document.addEventListener('DOMContentLoaded', (event) => {
+    const codeElements = document.querySelectorAll('span.hljs');
+    codeElements.forEach((codeBlock) => {
+        hljs.highlightBlock(codeBlock);
+    });
+});
 
 let blog_content = document.getElementById('blog_content');
 

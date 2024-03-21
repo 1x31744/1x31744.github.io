@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.addEventListener('DOMContentLoaded', (event) => {
     const codeElements = document.querySelectorAll('span.hljs');
     codeElements.forEach((codeBlock) => {
-        hljs.highlightBlock(codeBlock);
+        hljs.highlightBlock(codeBlock, { language: "x86asm" });
     });
 });
 

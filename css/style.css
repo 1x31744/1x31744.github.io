@@ -176,12 +176,3 @@ html {
     margin-left: 10px;
     margin-right: 10px;
 }
-.p_code {
-    overflow-wrap: break-word;
-}
-.hljs {
-    background-color: #f0f0f0;
-    color: #333;
-    padding: 2px 4px;
-    border-radius: 3px;
-}

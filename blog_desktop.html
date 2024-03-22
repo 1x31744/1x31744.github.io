@@ -185,8 +185,7 @@ printing_finished:
 title_string db 'Welcome to the lytlnybl bootloader!',0
 
 times 510-($-$$) db 0 ; pads the rest of the bootloader with 510 bytes, aiming for a 512 byte bootloader
-dw 0xAA55 ; specifies the end of the bootloader, recognised by bios
-            </code></pre>
+dw 0xAA55 ; specifies the end of the bootloader, recognised by bios</code></pre>
 
             <h2 style="font-size: 20px;">The "start" section:</h2>
             <p>Just a warning, alot of things you might have to take my word for, as there 
@@ -200,8 +199,7 @@ dw 0xAA55 ; specifies the end of the bootloader, recognised by bios
                 But i will briefly explain here.
             </p>
             <pre><code>mov ax, 07C0h
-mov ds, ax
-            </code></pre>
+mov ds, ax</code></pre>
             <p>
                 With these two lines, the first line loads the value <span class="hljs">0x07C0</span> into the 
                 ax register, this is the segment where the bootloader code is loaded by the bios, This
@@ -226,8 +224,7 @@ mov ds, ax
             </p>
             <pre><code>mov si, title_string
 call print_string
-jmp $
-            </code></pre>
+jmp $</code></pre>
 
             <p>
                 <span class="hljs">mov si, title_string</span>, this first line is what tells us what string we need to print,
@@ -246,6 +243,55 @@ jmp $
                 over and over again, so it makes an infinite loop, which makes the BIOS hang until we stop the process
             </p>
             <h2 style="font-size: 20px;">The "print_string" section:</h2>
+            <p>
+                Let's just look at the whole of our print section and i can explain it all in the 
+                coming paragraphs, so our print section goes as follows:
+            </p>
+            <pre><code>print_string:
+    mov ah, 0Eh ; bios number 0Eh, sets for teletype output function
+print_char:
+    lodsb ; loads byte at SI, into AL and increments SI
+            
+    cmp al, 0 ; 0 stored in al if at end of string
+    je printing_finished
+            
+    int 10h ;bios interrupt 0x10, to print char stored in AL
+    jmp print_char
+printing_finished:
+    ret</code></pre>
+            <p>
+                The first line "<span class="hljs">mov ah, 0Eh</span>" moves the value '<span class="hljs">0Eh</span>' into the '<span class="hljs">ah</span>' register.
+                In BIOS interrupt services '<span class="hljs">ah</span>' typically specifies the functin being requested. In this case,
+                '<span class="hljs">0Eh</span>' is the function number for teletype output.
+            </p>
+            <p>
+                Then we go into the 'print_char' section, this will be called over and over
+                again until we print the end of our string
+            </p>
+            <p>
+                The "<span class="hljs">lodsb</span>" instruction (as said in the comment) loads the byte at the memory
+                adress pointed by the '<span class="hljs">si</span>' register (which in the beggining would be the first char) into the 
+                "<span class="hljs">al</span>" register, and then increments the '<span class="hljs">si</span>' register to point to the next byte in memory
+            </p>
+
+            <p>
+                Next we have "<span class="hljs">cmp al, 0</span>" and "<span class="hljs">je printing_finished</span>"
+                the first instruction compares the value in '<span class="hljs">al</span>' register
+                with the value '<span class="hljs">0</span>', checking if it's the null terminator, which marks the end of the string.
+                After that we use '<span class="hljs">je</span>' (which means, jump if equal) instruction to jump to 'printing_finished'
+                if the value in '<span class="hljs">si</span>' is the null terminator, which is 0.
+            </p>
+
+            <p>
+                Then, simply, if we are not at the end of our string, we carry out our final
+                instructions: "<span class="hljs">int 10h</span>" and "<span class="hljs">jmp print_char</span>".
+                The first of the two does the interrupt service '<span class="hljs">10h</span>' which
+                is the BIOS interrupt for video services and in this case, the value in '<span class="hljs">ah</span>'
+                is '<span>0Eh</span>' indicating a teletype output, so the byte in '<span class="hljs">al</span>'
+                is interpreted into a char using ASCII and is then printed to the screen.
+                
+            </p>
+
         </div>
     </div>
     <script src="js/winbox.bundle.js"></script>

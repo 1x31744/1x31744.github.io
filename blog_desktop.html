@@ -289,8 +289,37 @@ printing_finished:
                 is the BIOS interrupt for video services and in this case, the value in '<span class="hljs">ah</span>'
                 is '<span>0Eh</span>' indicating a teletype output, so the byte in '<span class="hljs">al</span>'
                 is interpreted into a char using ASCII and is then printed to the screen.
-                
             </p>
+
+            <p>
+                Then in our final section we return back to start to go into our infinite loop.
+            </p>
+
+            <h2 style="font-size: 20px;">Final Two lines</h2>
+            <p>
+                I'll now explain the last two lines, which may look a little confusing, these are:
+            </p>
+            <pre><code>times 510-($-$$) db 0
+dw 0xAA55</code></pre>
+            <p>
+                The first line tells the assembler to add enough zeroes at the end of 
+                the bootloader code to make it exactly 510 bytes long. This ensures that the 
+                bootloader fills up most of the available space in the 512 byte sector reserved
+                for the bootloader.
+                Then, the next line marks teh end of the bootloader. It's like signing of the 
+                bootloader with a specific code '<span class="hljs">0xAA55</span>' which tells the BIOS that 
+                this is a valid boot sector. When the bios loads the bootloader, it checks for this signature
+                to make sure it's a legitimate bootable sector before proceeding with the boot process.
+            </p>
+
+            <p>
+                That wraps up our printing, which will be utilized a couple times in the BIOS,
+                Although, i'm pretty sure when we move out of the bios, we will have to print in a different
+                way, as we will not have access to the bios teletype services.
+                Now, it's time to move onto our section which will load our kernel into memory.
+            </p>
+
+            <h2>Loading the kernel</h2>
 
         </div>
     </div>

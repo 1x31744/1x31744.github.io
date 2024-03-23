@@ -465,6 +465,58 @@ dw 0xAA55 ; specifies the end of the bootloader, recognised by bios</code></pre>
     </p>
 
     <h2 style="font-size: 20px;">The "load_kernel_from_disk" section:</h2>
+
+    <p>
+        Carrying on in order of logical operation, after we print two times (for loading and intro messages), we go straight 
+        into our section for loading the kernel from disk, and the only goal of this is to take the kernel from the device's storage
+        and loading it into memory.
+    </p>
+    <p>
+        To start doing this, we first set up the segment adress, and this is '<span class="hljs">0900h</span>' which is loaded into
+        the '<span class="hljs">ax</span>' register, then copied to the es register, this segment adress is where the kernel will be loaded
+        into memory.
+    </p>
+    <p>
+        Next, with lines "<span class="hljs">mov ah, 02h</span>" and "<span class="hljs">mov al, 01h</span>" we are setting up our
+        disk read parameters, the '<span class="hljs">ah</span>' register is set to 02h, indicating the BIOS read functionality
+        then, the '<span class="hljs">al</span>' register is set to 01h, indicating that only one sector will be read from (our kernel is small)
+        so it only takes up one sector.
+    </p>
+    <p>
+        The next lines: "<span class="hljs">mov ch, 02h</span>" and "<span class="hljs">mov cl, 02h</span>"  require knowledge about 
+        disks rather than segmentation, in the first line '<span class="hljs">ah</span>' gets 0h loaded into it (which is just 0)
+        this is the cylinder we want to read from, this would just be the 0th cylinder, as our program is not big enough to be stored 
+        on multiple cylinders. The '<span class="hljs">al</span>' register stores the segment number we want to read from, this is 
+        the reason our virtual machine would use a floppy disk, as the segments in a floppy disk are 512 bytes, which is the size 
+        of our bootloader, so we can easily just read from the second sector on the disk. 
+    </p>
+    <p>
+        Then next, we specify the disk we are reading from with the lines: "<span class="hljs">mov dh, 0h</span>" and 
+        "<span class="hljs">mov dl, 80h</span>", the first instruction defines the type of disk that we are going to move from 
+        '<span class="hljs">0h</span>' signifies that we are reading from a floppy disk. The next line is simply just the number disk we are reading from:
+        '<span class="hljs">80h</span>' signifies that we are reading from disk 0, 81h would be disk 1.
+    </p>
+
+    <p>
+        Then "<span class="hljs">mov bx, 0h</span>" just signifies the offset of the  segment we will load into, which will just be 0
+        as we want to load it into the start of our segment.
+    </p>
+    <p>
+        Our final line for reading is just "<span class="hljs">int 13h</span>" which is an instruction whcih calls
+        the BIOS interrupt which performs the disk read operation based on the provided parameters.
+    </p>
+
+    <p>
+        Then the only thing left to do is check for erros, the interrupt earlier would set the carry flag if there was an error, 
+        so we can just use jc (jump if carry), to jump to an error handling sub-routine, which will just output a message signifying 
+        an error and then create an infinite loop.
+    </p>
+
+    <p>
+        That's all on reading from the disk, let's now look at the changes that were made to printing, which only really
+        just allow us to print multiple lines.
+    </p>
+    
     <h2 style="font-size: 20px;">Printing Changes:</h2>
 
 

@@ -519,6 +519,55 @@ dw 0xAA55 ; specifies the end of the bootloader, recognised by bios</code></pre>
     
     <h2 style="font-size: 20px;">Printing Changes:</h2>
 
+    <p>The only real changes to printing made in our code, are the changes to the printing_finished section of our code, as 
+        seen here:
+    </p>
+    <pre><code>printing_finished:
+    ;print new line
+    mov al, 10d ; ASCII code for new line
+    int 10h 
+
+    ;read current cursor position
+    mov ah, 03h ; function to read cursor position
+    mov bh, 0 ; page number 0 for default page
+    int 10h ; 10h now used to read cursor position
+
+    ;move cursor to beggining
+    mov ah, 02h ; function to set cursor position
+    mov dl, 0 ; column number (0 for begginign of line)
+    int 10h ; 0x10 to set cursor pos
+
+    ret</code></pre>
+
+    <p>
+        All this code is pretty basic, in the first block, our goal is to make a new line and our comments explain that pretty well enough.
+        What we do next is read the current cursor position, this is ultimately not needed, but we can do conditions for this to print error messages if 
+        the cursor row is at the incorrect place, dh will store the row number, so we can jump to an error message if not at the correct row.
+        The final block is to move the cursor to the beggining of the current row after making a new line, which is also explained in the comments for the code.
+    </p>
+
+    <p>
+        There we have it, after writing all this you can say you've made your own operating system (albeit a very simple one),
+        but it's a bootloader which loads a kernel, which then outputs a message, which may seem pretty dull, but just consider the fact 
+        that this was all done on bare metal hardware without an OS to support us, which is pretty cool.
+    </p>
+
+    <p>
+        Here is the makefile for the kernel and bootloader:
+    </p>
+    <pre><code>BOOT_FILE = bootloader/bootloader.asm 
+KERNEL_FILE = kernel/basic_kernel.asm 
+        
+build: $(BOOT_FILE) $(KERNEL_FILE)
+    nasm -f bin $(BOOT_FILE) -o bootstrap.o
+    nasm -f bin $(KERNEL_FILE) -o kernel.o
+    dd if=bootstrap.o of=kernel.img
+    dd seek=1 conv=sync if=kernel.o of=kernel.img bs=512
+    qemu-system-x86_64 -s kernel.img
+            
+clean:
+    rm -f *.o</code></pre>
+
 
 
 

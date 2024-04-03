@@ -38,6 +38,19 @@ os_folder.addEventListener('click', () => {
     }
 });
 
+let nes_folder = document.getElementById('nes_file');
+let nes_column = document.getElementById('nes_column');
+let nes_visible = true
+nes_folder.addEventListener('click', () => {
+    nes_visible = !nes_visible
+    if (nes_visible) {
+        nes_column.style.display = 'none'
+    }
+    else {
+        nes_column.style.display = 'block'
+    }
+})
+
 //file buttons
 let about_file = document.getElementById("about_button")
 let about_content = document.getElementById("about_content")
@@ -60,4 +73,17 @@ let os2_file = document.getElementById("os_part2_button")
 let os2_content = document.getElementById("os2_content")
 os2_file.addEventListener('click', () => {
     blog_content.innerHTML = os2_content.innerHTML
+})
+
+//nesbuttons
+let nes1_file = document.getElementById("nes_part1_button")
+let nes1_content = document.getElementById("nes1_content")
+nes1_file.addEventListener('click', () => {
+    blog_content.innerHTML = nes1_content.innerHTML
+})
+
+let nes2_file = document.getElementById("nes_part2_button")
+let nes2_content = document.getElementById("nes2_content")
+nes2_file.addEventListener('click', () => {
+    blog_content.innerHTML = nes2_content.innerHTML
 })

@@ -74,6 +74,11 @@ let os2_content = document.getElementById("os2_content")
 os2_file.addEventListener('click', () => {
     blog_content.innerHTML = os2_content.innerHTML
 })
+let os3_file = document.getElementById("os_part3_button")
+let os3_content = document.getElementById("os3_content")
+os3_file.addEventListener('click', () => {
+    blog_content.innerHTML = os3_content.innerHTML
+})
 
 //nesbuttons
 let nes1_file = document.getElementById("nes_part1_button")

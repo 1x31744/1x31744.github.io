@@ -46,7 +46,7 @@
                         </button>
                         <button id="os_part3_button" class="thirditem">
                             <img src="file.png" class="file_image">
-                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part III : Learning about x86 (coming soon)</p>
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part III : Learning about x86</p>
                         </button>
                     </div>
                     <button id="nes_file" class="seconditem">
@@ -607,6 +607,44 @@ build: $(BOOT_FILE) $(KERNEL_FILE)
 clean:
     rm -f *.o</code></pre>
         </div>
+        <div id="os3_content">
+            <h1>Part III : Learning about x86</h1>
+            <h2>The theory being covered</h2>
+            <p>
+                Editor notes:
+                FOR SEGMENTATION:
+                write about how segmentation isn't really used in modern systems, 
+                but we are being forced to use it because of x86, segmentation is an
+                older way of viewing memory, and talk about how paging is done in more 
+                modern systems
+
+                Another thing is that memory semgentation is an unaviodable view of memory in 
+                x86 CPU's, this is because of some design factors when making the x86 CPU, this includes
+                stuff like how it can be efficiently implemented into hardware, memory safety, like giving 
+                certain segments permission over what memory they can access, ease of addressing certain things
+                as everything is organised and memory segmentation originally evolved from some older systems.
+
+                This can then be used in turn with paging, the newer way of managing memory both for 
+                their respective tasks.
+
+                HOW SEGMENTATION WORKS:
+            </p>
+            <p>
+                There are only really four things we need to learn about before continuing to make our bootloader
+                And these are: 
+            </p>
+            <ul>
+                <li>x86 Operating Modes</li>
+                <li>x86 Memory Segmentation (not to be confused with segmentation in disk drives)</li>
+                <li>The x86 Run-time Stack</li>
+                <li>x86 Interrupts</li>
+            </ul>
+
+            <p>So let's start, tackling these in order.</p>
+
+            <h2>x86 Operating Modes</h2>
+        </div>
+
         <div id="nes1_content">
             <h1 style="font-size: 40px;"><u>Making an NES emulator (diary).</u></h1>
             <h1>Part I : Intro</h1>

@@ -611,25 +611,6 @@ clean:
             <h1>Part III : Learning about x86</h1>
             <h2>The theory being covered</h2>
             <p>
-                Editor notes:
-                FOR SEGMENTATION:
-                write about how segmentation isn't really used in modern systems, 
-                but we are being forced to use it because of x86, segmentation is an
-                older way of viewing memory, and talk about how paging is done in more 
-                modern systems
-
-                Another thing is that memory semgentation is an unaviodable view of memory in 
-                x86 CPU's, this is because of some design factors when making the x86 CPU, this includes
-                stuff like how it can be efficiently implemented into hardware, memory safety, like giving 
-                certain segments permission over what memory they can access, ease of addressing certain things
-                as everything is organised and memory segmentation originally evolved from some older systems.
-
-                This can then be used in turn with paging, the newer way of managing memory both for 
-                their respective tasks.
-
-                HOW SEGMENTATION WORKS:
-            </p>
-            <p>
                 There are only really four things we need to learn about before continuing to make our bootloader
                 And these are: 
             </p>
@@ -714,6 +695,64 @@ clean:
             </p>
 
             <h2>x86 Memory Segmentation</h2>
+
+            <p>
+                What is memory? Well, physically we can think of memory as just 
+                an array of bytes, each having a memory address that is just a numerical value 
+                stored in base 16, this is our physical view of memory, however we need a logical 
+                view of memory that can make alot of things much easier. This is where memory segmentation comes in.
+            </p>
+
+            <p>
+                Memory segmentation in x86 architecture is a feature that 
+                divides the memory into segments to allow for more flexible
+                memory management and protection. Understanding it is extremely 
+                important when developing an operating system for x86 platforms as in 
+                real mode, memory segmentation is the default and primary mechanism for 
+                adressing memory. In protected mode, memory segmentation is still the default 
+                memory adressing scheeme, but it can be configured or optimied to work alongside or be 
+                bypassed in favour of other memory management meothds like paging 
+            </p>
+
+            <p>
+                Memory segmentation isn't really used in the modern day, it's an old way of formulating memory,
+                it's used on x86 becuase of physical design factors of the CPU. Paging mostly is, which we will
+                likely use in our operating system, we will get into that later.
+            </p>
+
+            <p>
+                Memory segmentation works differently in real mode and protected mode 
+                so let's look at them individually, starting with a basic overview and then 
+                looking at how it's done in real mode.
+            </p>
+
+            <h2 style="font-size: 20px;">How does memory segmentation? An overview.</h2>
+
+            <p>
+                First, let's look at a basic overview of how memory segmentation works,
+                Segmentation is where main memory is seperated into parts called segments where 
+                each segments stores related data. To access data inside a segment, each byte is 
+                reffered to by it's own offset.
+                A running program is split into 3 different segments in x86, these are:
+            </p>
+            <ul>
+                <li>
+                    Code segment: Stores code of the program under execution
+                </li>
+                <li>
+                    Data segment: Stores the data of the program
+                </li>
+                <li>
+                    Stack segment: Stores the data of the program's stack
+                </li>
+            </ul>
+
+            <h2 style="font-size: 20px;">How does memory segmentation work in real mode?</h2>
+
+            <p></p>
+
+
+
         </div>
 
         <div id="nes1_content">

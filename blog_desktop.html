@@ -749,7 +749,70 @@ clean:
 
             <h2 style="font-size: 20px;">How does memory segmentation work in real mode?</h2>
 
-            <p></p>
+            <p>
+                We will start with real mode just so we can be clear without having to cover all of the extra stuff you 
+                have to consider in protected mode (like global descriptor tables). Here in real mode segmentation is mapped
+                by the view of the processor itself, so as said before, there is no way to avoid it.
+                It is also worth mentioning that each segment in real mode is 64KB in size.
+                In real mode, we have segment registers with each register having a size of 16 bits, these registers are:
+                <ul>
+                    <li>
+                        CS: used to define a code segment
+                    </li>
+                    <li>
+                        SS: used to define a stack segment
+                    </li>
+                    <li>
+                        DS: used to define a data segment
+                    </li>
+                </ul>
+                There are also a few other registers that we can use:
+                <ul>
+                    <li>
+                        ES: additional segment register that provides flexibility in memory access,
+                        usually used when you need to access more segments without changing the value of ds
+                    </li>
+                    <li>
+                        GS: global segment register, made to provide a segment for global data but can be used 
+                        similarly to ES
+                    </li>
+                    <li>
+                        FS: file segment register, made to access local thread storage but can also be used similarly to ES
+                    </li>
+                </ul>
+                Each segment stores the starting memory adress of a segment. We can reach any byte in a segment by setting the offset between 0-64kb
+            </p>
+
+            <p>Let's look at an example for memory segmentation.</p>
+
+            <p>
+                Assume we have some code for a program loaded into memory, which is stored at 100d. To reach the first byte of 
+                this code we use the offset 0, and increase it for any next byte we want to access.
+                We would also set the cs register to 100d as that is the starting adress for the current code segment we are 
+                trying to run.
+            </p>
+
+            <p>
+                x86 always runs with memory segmentation in mind, so when we use the jmp instruction, we aren't jumping to a 
+                specific space in memory, so let's say we write jmp 100d, we are actually jumping to the offset of 100d inside the 
+                current code segment. This also happens internally with the PC (program counter), where the PC doesn't
+                store the full memory adress, just the offset of the next instruciton.
+                Any jump to a location in the same code segment is called a near jump/call, otherwise it is called a far jump/call.
+                To do far jumps, you can do stuff like "<span class="hljs">jmp 900:1d</span>", this will load 900d into the 
+                CS and 1d into the PC. 
+            </p>
+
+            <p>
+                This is exactly the same for the other two segments (data and stack), it was just easy to demonstrate using the CS 
+                and jump/call because the functionality is related to code which is easy to manipulate code flow.
+                An example for DS would be lodsb, and for SS, the push instruction.
+            </p>
+
+            <h2 style="font-size: 20px;">How was memory segmentation used in the bootloader?</h2>
+
+            <p>
+                
+            </p>
 
 
 

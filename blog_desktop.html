@@ -811,8 +811,30 @@ clean:
             <h2 style="font-size: 20px;">How was memory segmentation used in the bootloader?</h2>
 
             <p>
-                
+                Previously, when we wrote the bootloader (and the basic kernel) we dealt with segments, let's look at our code again 
+                and i can now explain it now that you know everything you need to know about memory segmentation in real mode.
             </p>
+
+            <p>
+                The first thing we will look at goes all the way back to when we wrote our printing code together, this 
+                is in the start label, here:
+            </p>
+
+            <pre><code>mov ax, 07C0h
+mov ds, ax</code></pre>
+
+            <p>
+                It's worth noting that the CS register is already set to <span class="hljs">07C0h</span> by the bootloader
+                but we also set the same value to the DS register, This ensures the bootloader can correctly access it's own code and data
+                correclty.
+                But you might ask: "why do we need to load the location into ax and then ds". This is because we can't directly load 
+                into segment registers due to multiple limitations on the instruction set, so we just use ax as an intermediary register in order 
+                to load into ds.
+            </p>
+
+            
+
+
 
 
 

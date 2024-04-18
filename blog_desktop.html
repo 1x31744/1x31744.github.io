@@ -766,7 +766,7 @@ clean:
                         DS: used to define a data segment
                     </li>
                 </ul>
-                There are also a few other registers that we can use:
+                <p>There are also a few other registers that we can use:</p>
                 <ul>
                     <li>
                         ES: additional segment register that provides flexibility in memory access,
@@ -780,7 +780,7 @@ clean:
                         FS: file segment register, made to access local thread storage but can also be used similarly to ES
                     </li>
                 </ul>
-                Each segment stores the starting memory adress of a segment. We can reach any byte in a segment by setting the offset between 0-64kb
+                <p>Each segment stores the starting memory adress of a segment. We can reach any byte in a segment by setting the offset between 0-64kb</p>
             </p>
 
             <p>Let's look at an example for memory segmentation.</p>
@@ -834,7 +834,50 @@ mov ds, ax</code></pre>
 
             <p>Moving on, the next place we used memory segmentation</p>
 
+            <p>
+                This is when we were trying to load the kernel into memory from the bootloader, More specifically it was when 
+                we were trying to use the 13:02h interrupt, which is the interrupt for taking code from storage into memory.
+                Which can all be seen in this code here: 
+            </p>
 
+            <pre><code>load_kernel_from_disk:
+mov ax, 0900h
+mov es, ax
+
+mov ah, 02h ; service number, 
+mov al, 01h ; number of sectors we want to read from (only simple kernel for now, so less than 512 bytes)
+
+mov ch, 0h ; number of track we would like to read from, is just 0.
+mov cl, 02h ; sector number that we would like to read its content, this is the second sector
+
+mov dh, 0h ; the type of disk we would like to read from, 0h means we are reading from a floppy disk. 
+mov dl, 80h ; this is the hard disk we are reading from, 80h means hard disk #0, 81h would be hard disk #1
+
+mov bx, 0h ; memory adress that content will be loaded into
+int 13h ; 13h provides services related to hard disk</code></pre>
+
+            <p>
+                Here, what we do first is store 0900h into the extra segment register, as this is where we will be storing 
+                the kernel in memory, you see, the interrupt 13h:02h loads the content (which we have defined with 
+                prior registers) into the memory adress es:bx (where bx is the offset).
+            </p>
+
+            <p>
+                Then after we do that we can commit a far jump to the next memory segment where the kernel will be stored.
+                It's worth noting that a far jump changes the value of the cs register to wherever you jump to, in this case, it 
+                will be set to 0900h, which is good because that's where the start of code segment for our kernel is.
+                Then, in our kernel, we can set the ds register to the same as the cs in order to read code and data from the 
+                same segment.
+            </p>
+
+
+            <h2 style="font-size: 20px;">How does memory segmentation work in protected mode?</h2>
+
+            <p>
+                So we have got down how memory segmentation works in real mode, and even know how it's used in our bootloader,
+                that's pretty good, now we've just gotta cover protected mode and we're done with memory segmentation and can move 
+                onto the run time stack
+            </p>
 
 
 

@@ -876,10 +876,26 @@ int 13h ; 13h provides services related to hard disk</code></pre>
             <p>
                 So we have got down how memory segmentation works in real mode, and even know how it's used in our bootloader,
                 that's pretty good, now we've just gotta cover protected mode and we're done with memory segmentation and can move 
-                onto the run time stack
+                onto the run time stack.
             </p>
 
 
+            <p>
+                So, the basics of memory segmentation in protected mode and real mode are basically the same.
+                But, protected mode comes with some extra extensions for certain features like memory protection.
+            </p>
+
+            <p>
+                In protected mode, we have something called the global descriptor table (GDT), this is stored in main 
+                memory, and it's base adress is referenced by the global descriptor table register (GDTR). Just to clarify the GDTR is a special 
+                register used by the CPU to point to the location of the GDT in memory.
+            </p>
+
+            <p>
+                Each entry in this table is called a segment descriptor, each segment descriptor has a size of 
+                8 bytes and can be reffered to by an index called a segment selector. The segment selector defines an 
+                offset of 8 bytes within the space defined by the GDTR
+            </p>
 
         </div>
 

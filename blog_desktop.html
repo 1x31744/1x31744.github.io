@@ -894,7 +894,14 @@ int 13h ; 13h provides services related to hard disk</code></pre>
             <p>
                 Each entry in this table is called a segment descriptor, each segment descriptor has a size of 
                 8 bytes and can be reffered to by an index called a segment selector. The segment selector defines an 
-                offset of 8 bytes within the space defined by the GDTR
+                offset of 8 bytes within the space defined by the GDTR.
+                Each entry in the GDT defines a segment (of any type) and has the info required by the CPU to deal with that segment.
+                For instance: The starting memory adress of the segment is stored, the size/limit of the segment is stored.
+            </p>
+
+            <p>
+                Furthermore, as we have this focus around the GDT, our segment registers from real mode no longer store direct adresses,
+                they sture segment selectors.
             </p>
 
         </div>

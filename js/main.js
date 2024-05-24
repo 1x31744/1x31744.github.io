@@ -94,7 +94,7 @@ edit_content.addEventListener('keydown', (e) => {
                 });
                 break;
             case "blog":
-                document.location.href = 'blog_desktop.html';
+                document.location.href = 'blog';
                 break;
             default:
                 terminal_read_part.textContent += "\nUnrecognized command: '" + term_command+ "', type 'help' to see all available commands."
@@ -196,5 +196,5 @@ chip8_proj_button.addEventListener('click', () => {
 
 let blog_button = document.getElementById("blog_button")
 blog_button.addEventListener('click', () => {
-    document.location.href = 'blog_desktop';
+    document.location.href = 'blog';
 });

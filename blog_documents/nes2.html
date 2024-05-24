@@ -1,0 +1,46 @@
+<h1>Part II : The Bus and 6502 :0</h1>
+<h2>Day 1 : 3/4/2024 : 8:00PM</h2>
+<h2 style="font-size: 20px;">Setting up the bus:</h2>
+<p> 
+    As the first step i'm doing is making the CPU, i will start with producing a bus for the CPU to read and send data from, the bus will also be sending data to an fake
+    representation of RAM.
+</p>
+<p>
+    Here's my setup for my Bus:
+</p>
+<pre><u>Bus.hpp</u><code>#pragma once
+#include [<]cstdint>
+#include "cpu6502.hpp"
+#include [<]array>
+
+class Bus {
+public:
+    Bus(); //constructor
+    ~Bus(); //destructor
+    
+public: //devices
+    cpu6502 cpu;
+    //Fake ram
+    std::array<uint8_t, 64 * 1024> ram;
+
+public: //bus read and write
+    void write(uint16_t addr, uint8_t data);
+    uint8_t read(uint16_t addr, bool busReadOnly = false);
+};</code></pre>
+<pre><u>Bus.cpp</u><code>#include "Bus.hpp"
+
+Bus::Bus() {
+    for (uint8_t &i : ram) i = 0x00;
+}
+Bus::~Bus() {
+
+}
+
+void Bus::write(uint16_t addr, uint8_t data) {
+    if (addr >= 0x0000 && addr <= 0xFFFF) ram[addr] = data;
+}
+
+uint8_t Bus::read(uint16_t addr, bool busReadOnly) {
+    if (addr >= 0x0000 && addr <= 0xFFFF) return ram[addr];
+    return 0x00;
+}</code></pre>

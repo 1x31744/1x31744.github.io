@@ -9,7 +9,7 @@ const files = new WinBox("Files", {
     width: '550px',
     height: '800px',
     x: "10%",
-    y: "center",
+    y: "",
     top: "72px",
     mount: document.getElementById("files_content"),
 })
@@ -196,5 +196,5 @@ chip8_proj_button.addEventListener('click', () => {
 
 let blog_button = document.getElementById("blog_button")
 blog_button.addEventListener('click', () => {
-    document.location.href = 'blog_desktop.html';
+    document.location.href = 'blog_desktop';
 });

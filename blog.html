@@ -18,14 +18,26 @@
             $("#os1_content").load("blog_documents/os1.html"); 
             $("#os2_content").load("blog_documents/os2.html", function() {
                 hljs.highlightAll();
+                $("span.hljs").each(function() {
+                    var code = $(this).text();
+                    hljs.highlightBlock(this, null, false)
+                })
             });
             $("#os3_content").load("blog_documents/os3.html", function() {
                 hljs.highlightAll();
+                $("span.hljs").each(function() {
+                    var code = $(this).text();
+                    hljs.highlightBlock(this, null, false)
+                })
             });
 
             $("#nes1_content").load("blog_documents/nes1.html"); 
             $("#nes2_content").load("blog_documents/nes2.html", function() {
                 hljs.highlightAll();
+                $("span.hljs").each(function() {
+                    var code = $(this).text();
+                    hljs.highlightBlock(this, null, false)
+                })
             });
         });
     </script> 
@@ -33,10 +45,14 @@
 </head>
 <body>
     <div class="topbar" style="justify-content: space-between; display: flex;">
-        <h1 style="transform: translate(326.5%, 0%);"> Tyler Thompson </h1>
-        <div style="display: flex;">
+        <div style="display: flex; visibility: hidden;">
             <p style="font-size: 18px; text-align:left; transform: translate(0%, -15%);">Readability Mode:</p>
             <input style="width: 25px; height: 25px; transform: translate(0%, 50%);" type="checkbox">
+        </div>
+        <h1> Tyler Thompson </h1>
+        <div style="display: flex;">
+            <p style="font-size: 18px; text-align:left; transform: translate(0%, -15%);">Readability Mode:</p>
+            <input id="read_check" style="width: 25px; height: 25px; transform: translate(0%, 50%);" type="checkbox">
         </div>
     </div>
     <div class="blog_window">
@@ -141,12 +157,12 @@
             <p>You can contact me for any reason whatsoever, if you want to collaborate on a project, work with me or just want to talk. Go ahead!</p>
             <p>You can send me an email over at koopahello@gmail.com</p>
         </div>
-        <div id="os1_content"></div>
-        <div id="os2_content"></div>
-        <div id="os3_content"></div>
+        <div id="os1_content" class="doc"></div>
+        <div id="os2_content" class="doc"></div>
+        <div id="os3_content" class="doc"></div>
 
-        <div id="nes1_content"></div>
-        <div id="nes2_content"></div>
+        <div id="nes1_content" class="doc"></div>
+        <div id="nes2_content" class="doc"></div>
     </div>
     <script src="js/winbox.bundle.js"></script>
     <script src="js/blog.js"></script>

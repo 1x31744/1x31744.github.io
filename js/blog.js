@@ -92,3 +92,43 @@ let nes2_content = document.getElementById("nes2_content")
 nes2_file.addEventListener('click', () => {
     blog_content.innerHTML = nes2_content.innerHTML
 })
+
+let readability_checkbox = document.getElementById("read_check")
+let docs = document.getElementsByClassName("doc")
+docs = Array.from(docs)
+docs.push(blog_content)
+console.log(typeof(docs))
+readability_checkbox.addEventListener('change', e => {
+    if(e.target.checked === true) {
+        for (var i = 0; i < docs.length; i++) {
+            let doc = docs[i]
+            let children = doc.querySelectorAll('*')
+            for (var j = 0; j < children.length; j++) {
+                if (children[j].tagName == "P" || children[j].tagName == "H1" ||
+                    children[j].tagName == "H2" || children[j].tagName == "H3" ||
+                    children[j].tagName == "UL"
+                ){
+                    children[j].style.color = 'white'
+                }
+            }
+        }
+
+    }
+    if (e.target.checked === false) {
+        for (var i = 0; i < docs.length; i++) {
+            let doc = docs[i]
+            let children = doc.querySelectorAll('*')
+            for (var j = 0; j < children.length; j++) {
+                if (children[j].tagName == "P" || children[j].tagName == "H1" ||
+                    children[j].tagName == "H2" || children[j].tagName == "H3" ||
+                    children[j].tagName == "UL"
+                ){
+                    children[j].style.color = 'red'
+                }
+            }
+        }
+    }
+})
+window.onload = function() {
+    readability_checkbox.checked = false;
+};

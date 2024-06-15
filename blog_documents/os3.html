@@ -15,7 +15,7 @@
 <p>
     There are two modes we will be working with in x86, these are 16-bit real 
     mode and 32-bit protected mode, but what exactly is an operating mode?
-    An operating mode? An operating mode refers to a specific configuration in 
+    An operating mode refers to a specific configuration in 
     which the CPU operates, each mode defines how the CPU interacts with memory, hardware 
     and software, they each other many different features, capabilities, and limitations.
 </p>
@@ -24,7 +24,7 @@
     x86, there is long mode (which only exists in 64 bit systems), compatibility mode (which is 16 bit)
     and many others.
     But as we are writing a 32-bit x86 operating system our only goal is to get into 
-    protected mode which is mainly used for modern operating sytems and software, which is what we are making.
+    protected mode which is mainly used for modern operating systems and software, which is what we are making.
     When we started writing our OS in the last chapter, we were working in 
     real mode, as real mode is the initial operating mode of x86 processors during 
     system boot-up.
@@ -44,18 +44,18 @@
         It also allows access of BIOS interrupts, which (like we used before)
         are commonly used during system boot-up and for low-level system 
         programming tasks perfomed in real mode. BIOS interupts provide a way for software 
-        to interact witht the system BIOS.
+        to interact with the system BIOS.
     </li>
     <li>
         Now, onto limitations, the most important is probably a lack 
         of memory protection (which if you like cybersecurity you'd be
         interested in), real mode offers absolutely no memory protection 
         mechanisms, leaving the system utterly vulnerable to memory corruption and 
-        unauthorized access. Software running in real mod can freely access and modify 
+        unauthorized access. Software running in real mode can freely access and modify 
         any memory location, leading to security and stability issues.
     </li>
 </ul>
-<p>And now, let's talk about some Protected Mode:</p>
+<p>And now, let's talk about Protected Mode:</p>
 <ul>
     <li>
         The advantages for protected mode are really just the disadvantages of Real mode.
@@ -85,13 +85,13 @@
     important when developing an operating system for x86 platforms as in 
     real mode, memory segmentation is the default and primary mechanism for 
     adressing memory. In protected mode, memory segmentation is still the default 
-    memory adressing scheeme, but it can be configured or optimied to work alongside or be 
-    bypassed in favour of other memory management meothds like paging 
+    memory adressing scheeme, but it can be configured or optimised to work alongside or be 
+    bypassed in favour of other memory management methods like paging 
 </p>
 <p>
     Memory segmentation isn't really used in the modern day, it's an old way of formulating memory,
     it's used on x86 becuase of physical design factors of the CPU. Paging mostly is, which we will
-    likely use in our operating system, we will get into that later.
+    likely use in our operating system, we will get into that much later.
 </p>
 <p>
     Memory segmentation works differently in real mode and protected mode 
@@ -149,7 +149,7 @@
             FS: file segment register, made to access local thread storage but can also be used similarly to ES
         </li>
     </ul>
-    <p>Each segment stores the starting memory adress of a segment. We can reach any byte in a segment by settin
+    <p>Each segment stores the starting memory adress of a segment. We can reach any byte in a segment by setting an offset
 </p>
 <p>Let's look at an example for memory segmentation.</p>
 <p>
@@ -160,9 +160,9 @@
 </p>
 <p>
     x86 always runs with memory segmentation in mind, so when we use the jmp instruction, we aren't jumping to a
-    specific space in memory, so let's say we write jmp 100d, we are actually jumping to the offset of 100d insi
+    specific space in memory, so let's say we write jmp 100d, we are actually jumping to the offset of 100d inside
     current code segment. This also happens internally with the PC (program counter), where the PC doesn't
-    store the full memory adress, just the offset of the next instruciton.
+    store the full memory adress, just the offset of the next instruction.
     Any jump to a location in the same code segment is called a near jump/call, otherwise it is called a far jum
     To do far jumps, you can do stuff like "<span class="hljs">jmp 900:1d</span>", this will load 900d into the 
     CS and 1d into the PC. 

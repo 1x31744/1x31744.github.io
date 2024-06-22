@@ -17,7 +17,7 @@
     mode and 32-bit protected mode, but what exactly is an operating mode?
     An operating mode refers to a specific configuration in 
     which the CPU operates, each mode defines how the CPU interacts with memory, hardware 
-    and software, they each other many different features, capabilities, and limitations.
+    and software, they each offer many different features, capabilities, and limitations.
 </p>
 <p>
     To be expected, protected and real mode are not the only modes in
@@ -43,12 +43,12 @@
         level manipulation of hardware components.
         It also allows access of BIOS interrupts, which (like we used before)
         are commonly used during system boot-up and for low-level system 
-        programming tasks perfomed in real mode. BIOS interupts provide a way for software 
+        programming tasks performed in real mode. BIOS interrupts provide a way for software 
         to interact with the system BIOS.
     </li>
     <li>
         Now, onto limitations, the most important is probably a lack 
-        of memory protection (which if you like cybersecurity you'd be
+        of memory protection (which, if you like cybersecurity, you'd be
         interested in), real mode offers absolutely no memory protection 
         mechanisms, leaving the system utterly vulnerable to memory corruption and 
         unauthorized access. Software running in real mode can freely access and modify 
@@ -62,7 +62,7 @@
         It has Memory Protection, Multitasking support, privilege levels, among other things.
     </li>
     <li>
-        However, protected mode provides additional complexity compared to the 
+        However, protected mode provides additional complexity compared to
         real mode due to its advanced features mentioned before.
     </li>
 </ul>
@@ -85,12 +85,12 @@
     important when developing an operating system for x86 platforms as in 
     real mode, memory segmentation is the default and primary mechanism for 
     adressing memory. In protected mode, memory segmentation is still the default 
-    memory adressing scheeme, but it can be configured or optimised to work alongside or be 
-    bypassed in favour of other memory management methods like paging 
+    memory adressing scheme, but it can be configured or optimised to work alongside or be 
+    bypassed in favour of other memory management methods like paging.
 </p>
 <p>
-    Memory segmentation isn't really used in the modern day, it's an old way of formulating memory,
-    it's used on x86 becuase of physical design factors of the CPU. Paging mostly is, which we will
+    Memory segmentation isn't really used in the modern day; it's an old way of formulating memory and
+    is used on x86 because of physical design factors of the CPU. Whereas paging mostly is, which we will
     likely use in our operating system, we will get into that much later.
 </p>
 <p>
@@ -98,12 +98,12 @@
     so let's look at them individually, starting with a basic overview and then 
     looking at how it's done in real mode.
 </p>
-<h2 style="font-size: 20px;">How does memory segmentation? An overview.</h2>
+<h2 style="font-size: 20px;">How does memory segmentation work? An overview.</h2>
 <p>
     First, let's look at a basic overview of how memory segmentation works,
     Segmentation is where main memory is seperated into parts called segments where 
-    each segments stores related data. To access data inside a segment, each byte is 
-    reffered to by it's own offset.
+    each segment stores related data. To access data inside a segment, each byte is 
+    referred to by it's own offset.
     A running program is split into 3 different segments in x86, these are:
 </p>
 <ul>
@@ -120,7 +120,7 @@
 <h2 style="font-size: 20px;">How does memory segmentation work in real mode?</h2>
 <p>
     We will start with real mode just so we can be clear without having to cover all of the extra stuff you 
-    have to consider in protected mode (like global descriptor tables). Here in real mode segmentation is mapped
+    have to consider in protected mode (like global descriptor tables). Here in real mode, segmentation is mapped
     by the view of the processor itself, so as said before, there is no way to avoid it.
     It is also worth mentioning that each segment in real mode is 64KB in size.
     In real mode, we have segment registers with each register having a size of 16 bits, these registers are:
@@ -149,21 +149,21 @@
             FS: file segment register, made to access local thread storage but can also be used similarly to ES
         </li>
     </ul>
-    <p>Each segment stores the starting memory adress of a segment. We can reach any byte in a segment by setting an offset
+    <p>Each segment stores the starting memory address of a segment. We can reach any byte in a segment by setting an offset
 </p>
 <p>Let's look at an example for memory segmentation.</p>
 <p>
-    Assume we have some code for a program loaded into memory, which is stored at 100d. To reach the first byte 
+    Assume we have some code for a program loaded into memory, which is stored at 100d. To reach the first byte of
     this code we use the offset 0, and increase it for any next byte we want to access.
-    We would also set the cs register to 100d as that is the starting adress for the current code segment we are
+    We would also set the cs register to 100d as that is the starting address for the current code segment we are
     trying to run.
 </p>
 <p>
     x86 always runs with memory segmentation in mind, so when we use the jmp instruction, we aren't jumping to a
-    specific space in memory, so let's say we write jmp 100d, we are actually jumping to the offset of 100d inside
+    specific space in memory, so let's say we write jmp 100d, we are actually jumping to the offset of 100d inside the 
     current code segment. This also happens internally with the PC (program counter), where the PC doesn't
-    store the full memory adress, just the offset of the next instruction.
-    Any jump to a location in the same code segment is called a near jump/call, otherwise it is called a far jum
+    store the full memory address, just the offset of the next instruction.
+    Any jump to a location in the same code segment is called a near jump/call, otherwise it is called a far jump
     To do far jumps, you can do stuff like "<span class="hljs">jmp 900:1d</span>", this will load 900d into the 
     CS and 1d into the PC. 
 </p>
@@ -174,8 +174,8 @@
 </p>
 <h2 style="font-size: 20px;">How was memory segmentation used in the bootloader?</h2>
 <p>
-    Previously, when we wrote the bootloader (and the basic kernel) we dealt with segments, let's look at our co
-    and i can now explain it now that you know everything you need to know about memory segmentation in real mod
+    Previously, when we wrote the bootloader (and the basic kernel) we dealt with segments, let's look at our code
+    and I can now explain it now that you know everything you need to know about memory segmentation in real mode.
 </p>
 <p>
     The first thing we will look at goes all the way back to when we wrote our printing code together, this 
@@ -183,13 +183,13 @@
 </p>
 
 <pre><code>mov ax, 07C0h
-    mov ds, ax</code></pre>
+mov ds, ax</code></pre>
 
 <p>
     It's worth noting that the CS register is already set to <span class="hljs">07C0h</span> by the bootloader
     but we also set the same value to the DS register, This ensures the bootloader can correctly access it's own code and data
-    correclty.
-    But you might ask: "why do we need to load the location into ax and then ds". This is because we can't directly load 
+    correctly.
+    But you might ask: "why do we need to load the location into ax and then ds?". This is because we can't directly load 
     into segment registers due to multiple limitations on the instruction set, so we just use ax as an intermediary register in order 
     to load into ds.
 </p>
@@ -237,7 +237,7 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <p>
     So we have got down how memory segmentation works in real mode, and even know how it's used in our bootloader,
-    that's pretty good, now we've just gotta cover protected mode and we're done with memory segmentation and can move 
+    that's pretty good, now we've just got to cover protected mode and we're done with memory segmentation and can move 
     onto the run time stack.
 </p>
 
@@ -249,7 +249,7 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <p>
     In protected mode, we have something called the global descriptor table (GDT), this is stored in main 
-    memory, and it's base adress is referenced by the global descriptor table register (GDTR). Just to clarify the GDTR is a special 
+    memory, and it's base address is referenced by the global descriptor table register (GDTR). Just to clarify the GDTR is a special 
     register used by the CPU to point to the location of the GDT in memory.
 </p>
 
@@ -258,10 +258,10 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     8 bytes and can be reffered to by an index called a segment selector. The segment selector defines an 
     offset of 8 bytes within the space defined by the GDTR.
     Each entry in the GDT defines a segment (of any type) and has the info required by the CPU to deal with that segment.
-    For instance: The starting memory adress of the segment is stored, the size/limit of the segment is stored.
+    For instance: The starting memory address of the segment is stored, the size/limit of the segment is stored.
 </p>
 
 <p>
-    Furthermore, as we have this focus around the GDT, our segment registers from real mode no longer store direct adresses,
+    Furthermore, as we have this focus around the GDT, our segment registers from real mode no longer store direct addresses,
     they store segment selectors.
 </p>

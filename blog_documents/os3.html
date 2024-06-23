@@ -233,7 +233,7 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 </p>
 
 
-<h2 style="font-size: 20px;">How does memory segmentation work in protected mode?</h2>
+<h2 style="font-size: 20px;">How does memory segmentation work in protected mode? An intro to the Global Descriptor Table.</h2>
 
 <p>
     So we have got down how memory segmentation works in real mode, and even know how it's used in our bootloader,
@@ -265,3 +265,39 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     Furthermore, as we have this focus around the GDT, our segment registers from real mode no longer store direct addresses,
     they store segment selectors.
 </p>
+
+<h4>The structure of the segment descriptor, a basic overview.</h4>
+
+<p>
+    As we said before, a segment descriptor is an entry of the GDT worth 8 bytes, it is made up of multiple fields and flags that describe the attributes of any 
+    segment in memory. The processor will then go to the descriptor that describes the segment when we need to obtain information about a segment, like the starting memory address (of said segment).
+    Aswell as storing basic info, a segment descriptor stores info that helps in memory protection, this makes memory segmentation not just a logical way of viewing memory, but a method of memory protection,
+    protecting different segments on the system from each other, and not letting a less privileged segments manipulate data or call code in certain places (typically more privileged areas of the system).
+
+</p>
+
+<h4>A segment's base address and limit.</h4>
+
+<p>
+    The most important information about a segment is it's base address (the starting memory address). In real mode, the base address was stored in the corresponding segment register directly,
+    but in protected mode, this is just stored in the segment descriptor.
+</p>
+
+<p>
+    When currently running code refers to a memory address to read from or write to (with data segments) or to call somewhere(with code segments). it is actually referencing a specific
+    segment in the system. This generated memory address that we get when we try to look somewhere in a different segment, is not a physical memory adress, it is actually a logical memory address,
+    meaning it doesn't actually reference the place in which data is stored, it is simply a logical representation of where we need to go relative to the program's address space.
+</p>
+
+<p>
+    Every logical memory address refers to some byte in the specific segment in the system, and to actually reference this, it needs to be translated into a physical memory address.
+</p>
+
+<p>
+    In x86, a logical memory address may go through two translation processes instead of one, to obtain a physical memory address.
+    The first step: involves turning the logical memory address into a linear memory address (another non physical memory address) which is here becuase of the paging feature. If paging is enables in
+    the system, a second translation process occurs to turn the linear memory addresss into a physical memory address, this is becuase a linear memory address can be seen as a physical address when paging is disabled.
+</p>
+
+WRITE ABOUT HOW A LOGICAL MEMORY ADRESS IS A SEGMENT ESELECTOR AND OFFSET. AND HOW CONVERSION RELIES ON CHECKING THE SEGMENT DESCRIPTOR.
+Continue on page 52

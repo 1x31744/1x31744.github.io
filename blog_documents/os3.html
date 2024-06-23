@@ -332,11 +332,31 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     it's set to 1, the maximum size is 4 GB.
 </p>
 
-<h4>Back to the structure of the descriptor</h4>
+<h4>Back to the structure of the descriptor, looking more in depth.</h4>
 
 <p>
-    Bytes 1, 2, 3 and 4 of the descriptor store the least significant bytes of the segment's base address
+    maybe do later....
 </p>
+
+<h4>A segment's type</h4>
+
+<p>
+    When a segment is defined, the processor should know how to interpret the content inside this segment, this is defined by the type of segment. We know so far that there are code segments 
+    and data segments, these two types belong to a category of segments called application segments, there is another category called system segments, and many types of segment belong to it.
+</p>
+
+<p>
+    Whether a specific segment is an application or system segment, is defined in the S flag, also known as the descriptor type flag, which is the fifth bit in the fifth byte of the segment descriptor.
+    When the S flag is 0, the segment is considered a system segment, when it is an application segment the value of S is 1. We will focus on when the S flag is 1.
+</p>
+ 
+<p>
+    The only application segments are code and data. If some application segment is referenced by currently running code, the proccessor will go to the descriptor of this segment, 
+    and by reading the S flag (which sould be 1), it should know that the segment in question is an application segment, but how does it know whether it's a data or code segment?
+    This info is stored in a field called the type field in the segment descriptor.
+</p>
+
+
 WRITE ABOUT HOW A LOGICAL MEMORY ADRESS IS A SEGMENT ESELECTOR AND OFFSET. AND HOW CONVERSION RELIES ON CHECKING THE SEGMENT DESCRIPTOR.
 Continue on page 52
 

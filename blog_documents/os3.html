@@ -356,6 +356,23 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     This info is stored in a field called the type field in the segment descriptor.
 </p>
 
+<p>
+    The type field is the first 4 bits of the 5th byte of the segment descriptor. The most significant bit specifies if the application segment is a code or data segment, the least significant 
+    specifies whether the segment has been accessed or not, when the value of this is 1, this means that the segment has been written to or read from, but if it's 0, this means that the segment 
+    has not been accessed. The value of this bit is changed by the proccessor in only one situation, this is when the selector of the segment is loaded into the GDT. In any other situation, 
+    it's up to the OS to decide the value of the accessed flag. According to intel, this flag can be used for virtual memory management and debugging.
+</p>
+
+<p>
+    The other two bits or flags of the type field depend on whether it's a code or data segment. So let's cover those individually.
+</p>
+
+<h4>The type field for Code segments</h4>
+
+<p>
+    
+</p>
+
 
 WRITE ABOUT HOW A LOGICAL MEMORY ADRESS IS A SEGMENT ESELECTOR AND OFFSET. AND HOW CONVERSION RELIES ON CHECKING THE SEGMENT DESCRIPTOR.
 Continue on page 52

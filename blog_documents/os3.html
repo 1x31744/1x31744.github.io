@@ -335,8 +335,24 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 <h4>Back to the structure of the descriptor, looking more in depth.</h4>
 
 <p>
-    maybe do later....
+    I can show you the complete structure of a descriptor using a diagram taken from the "Intel® 64 and IA-32 Architectures Software Developer’s Manual (Volume 3A)", seen here:
 </p>
+
+<img src="/images/os/segdescriptor.png" style="width: 746px; height: 422px;">
+
+<p>
+    The first 16 bits (bit 0-15) are the first 16 bits of the segment's limit. then next 24 are the first 24 bits of the segment's base, then we have our type field, S flag, DPL field, P flag,
+    then we have the next nibble of our limit, the AVL flag, L flag (for 64 bit), DB flag, G flag, and the next section of our base.
+</p>
+
+<p>
+    You may be wondering, why is the segment descriptor formatted so strangely? and it's simply becuase of reverse compatibility with the 80286 16-bit microproccessor, here is a similar 
+    diagram seen from the Intel 80286 Programmer's Reference Manual:
+</p>
+
+<img src="/images/os/olddescriptor.png" style="width: 746px; height: 422px;">
+
+<p>On the 80286 diagram, the base size was 24 bits, and the limit's size was 16 bits, therefore we just extend this for our newer proccessor architecture.</p>
 
 <h4>A segment's type</h4>
 

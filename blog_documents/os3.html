@@ -386,11 +386,93 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 <h4>The type field for Code segments</h4>
 
 <p>
-    When the segment is a code segment
+    When the segment is a code segment, the second most significant bit of the type field is called the conforming flag (C flag), whereas the third most significant bit is called the 
+    read-enabled (R flag), starting with the simplest being the R flag.
 </p>
 
+<p>
+    The value of this flag indicates how the code inside the segment can be used, when the value of the R flag is 1, this means
+    the content of the code can be executed and read from, but when it's 0, this means that is can be only be executed, and not read from.  
+</p>
 
-WRITE ABOUT HOW A LOGICAL MEMORY ADRESS IS A SEGMENT ESELECTOR AND OFFSET. AND HOW CONVERSION RELIES ON CHECKING THE SEGMENT DESCRIPTOR.
-Continue on page 52
+<p>
+    The conforming flag is all to do with privilege levels. When a segment is conforming (the value of the conforming flag is 1), this means that code that runs in a less-priveleged level 
+    can call this segment which runs in at a higher privilege level. Why would we want this? Well the kernel can sometimes provide code that is basic and may be needed by many programs,
+    this code would have a privilege level of 0, as it is a part of the kernel and would gain the highest privelege level, however, any other programs, which would have a lower privelege level
+    wouldn't really be able to call this without the conforming flag. So this is why it is needed.
+</p>
 
-PAGE 53
+<h4>The type field for Data segments</h4>
+
+<p>
+    Now, when we are working with data segments, the second most significant bit is called the expansion-direction flag (E flag), and the third most significant is called the write-enabled flag 
+    (W flag)
+</p>
+
+<p>
+    The write-enabled flag gives the ability to decide whether we want our data segment to be read-only or not, when set to 0, the data will be read-only, when set to 1, the data segment will be both
+    readable and writable
+</p>
+
+<p>
+    The expansion-direction flag will be covered when i move onto the x86 run-time stack, for a vague definition now, we could say that when the value of the flag is 0, the data segment
+    is going to expand up, but when the value of the flag is 1, the data segment will expand down. (these are intel's terms so don't blame me).
+</p>
+
+<p>
+    An extra thing about data segments is that all of them are non-conforming, which means, less priveleged code cannot access a data in a more priveleged level, and all data segments 
+    can be accessed by a more-priveleged code.
+</p>
+
+<h4>Privelege levels in segments</h4>
+
+<p>
+    Prior, i have probably stated that a segment should belong to a privelege level, and based on this, there are rules for how certain segments can interact based on these privelege levels
+    which the processor would enforce, these privelege levels are defined by the descriptor privelege level (DPL) in the segment descriptor, as this is a 2 bit value, the possible privelege levels 
+    are 0, 1, 2 and 3, the DPL is int he second and third most significant bits of byte 5 in a descriptor.
+</p>
+
+<h4>The other flags: The D/B flag</h4>
+
+<p>
+    There are only 3 flags left that i haven't covered, the first is a flag which name changes depending on the segment it resides within, it is located within the second 
+    most significant bit in byte 6 when it within a code segment, it is called the 
+    default operation size flag (D flag), When the processor executes the instructions, it uses the D flag to choose the lenght of the operands, depending on the currently executing instruction.
+    If the value of the D flag is 1, the processor is going to assume the operand has a size of 32 bits if it's a memory address, and 32 bits or 8 bits if it's not a memory address, when the value of the 
+    D flag is 0, the processor is going to assume the the operand has the size of 16 bits if it's a memory address, and 16 or 8 bits if not a memory address.
+</p>
+
+<p>
+    When the segment is a stack segment, the same flag is calle dthe default stack pointer size flag (B flag), and it decides the size of the memory address which points to the stack,
+    which is commonly known as the stack pointer, used by stack instructions such as push and pop. When the value of the B flag is 1, then the size of the stack pointer will be 
+    32 bits, and it's value will be stored in the register ESP, when the value of the B flag is 0, the size of the stack pointer will be 16 bits and it's value will be stored 
+    in the register SP
+</p>
+
+<p>
+    When dealing with a data segment that grows upward, this is called an upper bound flag (B flag), when it's value is 1, the maximum possible size of the segment will be 4GB, otherwise, the 
+    maximum size is 64KB
+</p>
+
+<p>To note, the value of the D/B flag should usually be 1 for 32 bit segments and 0 for 16 bit segments.</p>
+
+<h4>The other flags: The L flag</h4>
+
+<p>
+    This is known as the 64-bit code segment flag (L flag), which is the third most significant bit in the byte 6. If the value of this flag is 1 that means the code inside this segment 
+    is 64-bit code while 0 means the opposite, when the value of the L flag is 1, the D/B flag should be 0.
+</p>
+
+<h4>The other flags: The AVL flag</h4>
+
+<p>
+    This flag doensn't really have any paticular meaning for the processor, however, this flag is availible for the OS to use in whatever way it needs, or it is just ignored.
+</p>
+
+<p>And that wraps up all coverage of the descriptor, moving on.</p>
+
+<h3>More functions of the GDT</h3>
+
+<h4>The GDTR</h4>
+
+Page 58, find what is important and what isn't.

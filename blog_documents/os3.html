@@ -471,8 +471,6 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <p>And that wraps up all coverage of the descriptor, moving on.</p>
 
-<h3>More functions of the GDT</h3>
-
 <h4>More on the GDTR</h4>
 
 <p>
@@ -492,6 +490,50 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <h4>The local descriptor table</h4>
 
+<p>
+    The GDT is system-wide, this means that it is available to every single process within the system. x86 also gives us the power to create local descriptor tables (LDTs) in protected-mode,
+    these have the same functionality and structure as the GDT. Multiple of these LDT's can be made, each one can be private to a specific process currently running on the system, multiple 
+    processes can also share a single LDT that only those proccesses can interact with, and no other processes will be able to interact with this LDT. 
+</p>
 
+<p>
+    How to use an LDT depends on how the kernel is being designed, whereas the GDT is required by x86 architecture, the LDT is optional and in the hands of the designer.
+    To tell the processor that a given region of memory is in an LDT, a new segment descriptor should be created in the GDT for the LDT, the LDT table will be considered as a 
+    system segment, so the value of the S flag would be 0, and because there are many different system segments in x86 we would then have to define that this is an LDT.
+    This is done via the type field, and it's value should be 0010b, how the processor can tell which table should be used in the monment for a given segment between the 
+    GDT and the LDT will be discussed when we talk about segment selectors.
+</p>
 
-Page 58, find what is important and what isn't.a
+<p>
+    The x86 inscrustion lldt is used to load the LDT table that we would like to use now into a special register called the LDTR, which is 16-bit and contains the index of the segment 
+    descriptor which describes the LDT table.
+</p>
+
+<h4>More on the segment selector</h4>
+
+<p>
+    In reality, the way how we described the segment selector before as an index, is not actually true, the index is simply just a single part of the segment selector,
+    a full diagram of it can be seen here:
+</p>
+
+<img src="/images/os/segmentselector.png">
+
+<p>
+    We can see that it is 16 bits and the first two bits are occupied by a field called the "requester privelege level" (RPL). The next bit is then occupied by a flag called the table indicator,
+    and then we have our usual index field which we know much about.
+</p>
+
+<p>
+    The TI flag is used by the processor to tell if the index in the segment selector is an index in the GDT or the LDT, when it is at 0, the index signifies the GDT, when it is at 1, it 
+    signifies an LDT, when it's 1, the processor consults the LDTR to know which LDT we are working with, then the descriptor on the LDT is read.
+</p>
+
+<p>
+    The RPL, as the name suggests, is to do with privelege levels, we mentioned before the DPL, the privelege level of a given segment and there also exists the CPL, 
+    which is the privelege level of the currently executing code, the RPL is used when a low privelege program calls let's say, kernel data that is a more high privelege,
+    when calling, the RPL defines the privelege level of the caller, so any attempts to reach a segment where its sectors RPL is larger than the CPL should be denied.
+</p>
+
+<!-- maybe cover the CPL in proccesor modes -->
+
+<h2>x86 Run-Time Stack</h2>

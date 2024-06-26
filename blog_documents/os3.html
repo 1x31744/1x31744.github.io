@@ -473,6 +473,25 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <h3>More functions of the GDT</h3>
 
-<h4>The GDTR</h4>
+<h4>More on the GDTR</h4>
+
+<p>
+    As we know, the GDTR stores the base (physical) address of the global descriptor table, but it also stores the limit of the table.
+    To load a value into the register of the GDTR the instruction: <span class="hljs">lgdt</span> 
+    must be used, this stands for "load global descriptor table". It takes one operand which is the value that should be loaded into the GDTR,
+    this operand's structure should be similar to the actual structure of the GDTR, which is shown here:
+</p>
+
+<img src="/images/os/GDTR diagram.png">
+
+<p>
+    We can see it's 48 bits long, starting with the 16 bit limit, and then the 32 bit base. The operand should follow this same formula.
+    This also means that we have some limits to our GDTR (no pun intended), as our limit is a 16 bit number, the maximum value of our GDT 
+    is 64KB (65536) bytes.
+</p>
+
+<h4>The local descriptor table</h4>
+
+
 
 Page 58, find what is important and what isn't.a

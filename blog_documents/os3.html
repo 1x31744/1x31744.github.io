@@ -153,8 +153,8 @@
 </p>
 <p>Let's look at an example for memory segmentation.</p>
 <p>
-    Assume we have some code for a program loaded into memory, which is stored at 100d. To reach the first byte of
-    this code we use the offset 0, and increase it for any next byte we want to access.
+    Assume we have some code for a program loaded into memory, which is stored at 100d. To reach the first byte we would clearly 
+    just set our offset to 0, and increase it for any next byte we want to access.
     We would also set the cs register to 100d as that is the starting address for the current code segment we are
     trying to run.
 </p>
@@ -566,4 +566,8 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     The register <span class="hljs">EBP</span> (stack frame base pointer) caintains the starting memory address of the current stack frame, the register <span class="hljs">ESP</span> 
     contains the memory address of the top of the stack. To push a new item to the stack the <span class="hljs">push</span> instruction can be used, where the operand is the new item, this 
     will decrement the value of ESP to get a new starting address for the next value, this means that the value of the x86 run time stack grows downwards in memory.
+</p>
+
+<p>
+    When a function ends 
 </p>

@@ -537,3 +537,33 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 <!-- maybe cover the CPL in proccesor modes -->
 
 <h2>x86 Run-Time Stack</h2>
+
+<p>
+    I'll assume you already know how the stack data structure works regularly without a context as it's one of the most basic data sructures in computer science, if you don't, do not worry,
+    as it's super simple and there are many great explanations <a href="https://www.geeksforgeeks.org/introduction-to-stack-data-structure-and-algorithm-tutorials/">online</a>
+</p>
+
+<h3>The implementation</h3>
+
+<p>
+    The reason we need the run time stack is to implement the lifecycle of functions, so what happens when we call and return from a function, etc... 
+    We know that a program usually consists of many subroutines (functions), and all of these subroutines fill out a specific goal within the program.
+    Let's say a function called <i>y</i> starts it's life when called by another function: <i>x</i>, <i>y</i> is the callee and <i>x</i> is the caller.
+    the callee can define it's own local variables which are private, and thse variables can be removed from memory once the callee returns.
+</p>
+
+<p>
+    So, when the callee returns, the processor needs to know when it finishes and the location of the code that we should return to (which is usually right after the function call)
+</p>
+
+<p>
+    In x86, each process will have it's own run-time stack, this is a memory region that obays the rules of the stack data structure.
+    The run time-stack is divided into multiple small stacks, these are called "stack frames", each stack frame relates to a function that has been called during 
+    execution, once the function ends it is removed from the larger run-time stack, therefore removing it from memory.
+</p>
+
+<p>
+    The register <span class="hljs">EBP</span> (stack frame base pointer) caintains the starting memory address of the current stack frame, the register <span class="hljs">ESP</span> 
+    contains the memory address of the top of the stack. To push a new item to the stack the <span class="hljs">push</span> instruction can be used, where the operand is the new item, this 
+    will decrement the value of ESP to get a new starting address for the next value, this means that the value of the x86 run time stack grows downwards in memory.
+</p>

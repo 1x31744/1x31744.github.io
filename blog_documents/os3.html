@@ -575,7 +575,7 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     when we can just change the existing data when overwriting in the future.
 </p>
 
-<h4>Calling conventions</h4>
+<h4>The cdecl calling convention</h4>
 
 <p>
     When a function needs to call another the caller should push all the parameters that should be passed to be into the callee to the stack. So, the callee's parameters will be on A's stack 
@@ -603,5 +603,19 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 </p>
 
 <p>
-    
+    When the callee needs to return any sort of value, we can just store it in a register like EAX, then to actually return we can just pop all the values from the stack 
+    until we get to the prior value of EBP, this can then be popped into the actual EBP register. Then at the top of the stack is the memory address we need to return to,
+    so this can just be loaded into the program counter, this can be done using the x86 instruction called <span class="hljs">RET</span> (which will also pop the value so 
+    we will not need to pop it ourselves)
 </p>
+
+<p>
+    Then when our caller gets control again, we can pop our previous parameters, just so we can clear up some memory space for the remainder of the function, you would expect to use pop, 
+    but it can be done just by incrementing the stack pointer by 4 and this dealocates the memory without having to store it somewhere (as pop stores the values and removes them).
+</p>
+
+<p>
+    The implementation of calling and returning from functions is not written in stone for x86, it is simply a convention, this one is known as cdecl, or the C declaration.
+    There are many other conventions and you can even make/design your own.
+</p>
+

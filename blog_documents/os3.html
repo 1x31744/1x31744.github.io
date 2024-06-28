@@ -699,6 +699,54 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <img src="/images/os/trap and interrupt descriptor.png">
 
+<!--May have to change some things in this diagram, like including the T  flag and adjusting the reserved part. WIll write now, change later.-->
+
 <p>
-    A gate descriptor should point to the memory address of the interrupt service descriptor's code.
+    A gate descriptor should point to the memory address of the interrupt service descriptor's code. You can see bytes 2 and 3 in both contain a segment selector, which is the selector of the
+    handler's code.
+    The offset of the service descriptor's is useful if the first instruction of the service descriptor is a part of the code segment given by the segment selector, as we can see this is 
+    divided into parts like descriptors in the GDT are.
+</p>
+
+<p>
+    The the least significant nibble of byte 4 is reserved, and the most significant nibble of byte 4 should be kept as 0. When the present flag (P flag) is 0, this means that the 
+    code that the descriptor is pointing to is not laoded into memory, and 1 means that it is.
+    The DPL is the privelege level of the service routine. 
+</p>
+
+<p>
+    The D flag specifies the size of the gate descriptor itself. When D = 1 the size is 32 bits, and 0 means 16 bits, 32 bit should always be used in protected mode. There is also the T flag 
+    which is the right most next to the D flag, when this is 0, it is an interrupt gate, when it is 1, it is a trap gate, which can be seen in the respective diagrams.
+</p>
+
+<p>
+    The difference between interrupt and trap gates is that when an interrupt gate is called, the processor is going to disable the ability to signal a new interrupt until the service routine returns.
+    There are exceptions though, one of these is an interrupt known as "non-maskable interrupts" (NMI), which will interrupt execution of an interrupt even if it is caused by an interrupt gate.
+    NMI's occur when something really bad happens in the system.
+</p>
+
+<p>
+    service routines defined by a trap gate can be interrupted, where as interrupt gates can't
+</p>
+
+<p>
+    Disabling interruption can also be performed by code using the <span class="hljs">cli</span> (clear interrupt flag) instruction. The ability to interrupt the code can be enabled again by 
+    using the <span class="hljs">sti</span> (set interrupt flag) instruction, both of these manipulate the interrupt flag, a part of EFLAGS.
+</p>
+
+<p>
+    It is also worth knowing, that the interrupt number, is just the index of the interrupt service descriptor itself, and in protected mode these interrupt numbers have a specific 
+    meaning from 0-21. Besides these, interrups can be desided by the OS design.
+</p>
+
+<h3>The IDTR register.</h3>
+
+<p>
+    We have the ability to tell the processor where the IDT resisdes in memory, this is done by the <span class="hljs">lidt</span> (load IDT) instruction, this works the same way as 
+    the <span class="hljs">lgdt</span> instruction, it takes the operand and loads it into the IDTR register, to later be used to reach the IDT. The structure of the IDTR is exactly 
+    the same ast the GDTR, so wewould use this in the same way as we used lgdt.
+</p>
+
+<p>
+    And that covers just about all the theory we need to know for now, what a relief, i bet you're happy to begin coding again because i certainly am.
 </p>

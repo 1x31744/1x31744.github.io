@@ -628,12 +628,29 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <p>
     The stack growing downwards is done by default in x86, there are also visualisations where the stack grows upward that are used in other systems, the reason why 
-    stacks usually grow downwards with x86, is also probably due to historical design factors
+    stacks usually grow downwards with x86, is also probably due to historical design factors, but you could actually make the x86 run time stack grow upward if you wanted to, but for now,
+    i'll just stick with letting it grow downwards, you may remember the expansion-direction flag i left out for when we covered stacks,
+    well, when it's value is 0, the stack will grow downwards, and to grow upwards, it's value wshould be 1.
 </p>
 
 <!--maybe say why they grow down and put this above the prior topic.-->
 
-<h4>Can we resize the run-time stack?</h4>
+<h4>Advantages and disadvantages of growing upwards and downward</h4>
+
+<p>
+    Downwards stack growth is mostly used because of many reasons, the most prominent being from early computing when memory was limited, so it would not be good to pre-allocate a large 
+    chunk of memory to exclusively be used by the stack, down growing fixed this, providing an efficient use of memory. After this, most archetecture just would have maintained compatibility with 
+    previous version of the same architecture.
+</p>
+
+<p>
+    The upwards growing stack allows us to resize the stack, at the cost of inefficient memory usage, (this also has to do with the stack and the heap growing in opposite directions),
+    but i haven't talked about the heap that much so don't really worry about it.
+</p>
+
+
+
+<!--Write about heap when indrucucing the stack-->
 
 
 

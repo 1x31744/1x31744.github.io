@@ -652,5 +652,46 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <!--Write about heap when indrucucing the stack-->
 
+<h2>x86 Interrupts</h2>
 
+<p>
+    If you've ever made a website in javascript, and made something happen when you clicked a button, you'd know about event driven programming (or at least would have used it before).
+    Event-driven programming is a programming paradigm in which the flow of a program is determined by external events.
+    This paradigm will also be used when developing our operating system, and it comes in the form of Interrupts
+</p>
 
+<p>
+    An interrupt is simply just a type of instruction that is used when an even occurs and halts whatever process the processor is processing.
+    The processor then calls the required interrupt service routine that respects to the current interupt, after doing this, the processor returns to 
+    the process it was handling before.
+</p>
+
+<p>
+    There are many kinds of interrupts and we've actually used one before, this was when we was loading the kernel into memory from the disk, this was a disk interrupt, there are video interrupts,
+    etc... an interrupt happens when you hit a key on a keyboard, these will then be handled in a certain way by the operating system that consults correctly with the device drivers.
+</p>
+
+<p>Either hardware or software can interrupt the processor. The keyboard is an example of a hardware interrupt, but ones can be caused by software</p>
+
+<p>
+    Interrupts all have an interrupt number which specifies what interrupt it is, the one we used in our bootloader was 10h, when we used <span class="hljs">int 10h</span>
+    it called the interrupt service routine numbered 10h. A kernel can also give it's own interrupts to be used by application software, this can be stuff like manipulating file systems
+    and would be used in the same way we used our BIOS interrupts, ones provided by the kernel are called "system calls"
+</p>
+
+<p>
+    As well as interrupts, exceptions can also be used as another type of event that would stop the processor in a similar way to how an interrupt would. The difference however is that exceptions 
+    happen when a problem occurs (an error). 
+</p>
+
+<h3>The interrupt descriptor table</h3>
+
+<p>
+    In x86, there is another table called the "interrupt descriptor table" (IDT). The IDT tells the processor how to reach the service descriptor of a specific interrupt number.
+    Entries in the IDT are called "gate descriptors", the size of each gate descriptor is 8 bytes, the same as descriptors in the GDT. The base address of the IDT is stored in a 
+    register called the IDTR (Interrupt descriptor table register).
+</p>
+
+<p>
+    Interrupt gates
+</p>

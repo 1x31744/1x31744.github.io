@@ -693,5 +693,12 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 </p>
 
 <p>
-    Interrupt gates
+    Gate descriptors in the IDT can be 1 of three types. The task gate, the interrupt gate and trap gate.
+    Focusing on the interrupt and trap gate, a diagram of them can be seen here:
+</p>
+
+<img src="/images/os/trap and interrupt descriptor.png">
+
+<p>
+    A gate descriptor should point to the memory address of the interrupt service descriptor's code.
 </p>

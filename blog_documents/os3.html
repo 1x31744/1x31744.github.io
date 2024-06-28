@@ -569,5 +569,39 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 </p>
 
 <p>
-    When a function ends 
+    The <span class="hljs">pop</span> inscrution can also be used, this will increment the value of the ESP and store the value that was on the top of the stack to the memory location 
+    or register specified by the operand.
+    It also won't overwrite the popped value with null data, it will just leave it, this is for performance as writing a bunch of 0's in the place would take up unnessesary recourses,
+    when we can just change the existing data when overwriting in the future.
+</p>
+
+<h4>Calling conventions</h4>
+
+<p>
+    When a function needs to call another the caller should push all the parameters that should be passed to be into the callee to the stack. So, the callee's parameters will be on A's stack 
+    frame. It's also worth noting that parameters are pushed in revered order, so parameter 2 will appear below parameter 1 on the stack frame. After this, the <span class="hljs">call</span> 
+    instruction is used to start running the code of the other function, but before jumping, the instruction pushes the value of the return address onto the stack, which would be stored in 
+    the program counter (EIP), this is done so we know where to go next after we are done executing our code.
+</p>
+
+<p>
+    When a function starts in a program, it is responsible to create it's own stack frame, so the first thing a function should have in it's code is the code that makes a new stack frame.
+    A function does this by pushing the current value of EBP to the stack frame, this is because it's going to be changed in a second,
+    then we move the value of ESP (stack pointer) to EBP (starting address of the current stack frame).
+    So now, we can continue working with our function and it's stack pointer now, pushing any value we may need, etc..
+</p>
+
+<p>
+    You may be thinking: "but how do we reach our peramaters if they are further down the stack?", well this is where the EBP register comes in, as we can use this to access our parameters, 
+    by referencing an incremented value of it, which would always be the same as only the prior EBP and return address are stored between the current value of the EBP and the required parameters.
+</p>
+
+<p>
+    It's also worth noting that all values pushed to the stack are worth 4 bytes, as we are in 32 bit protected mode, 
+    so to reach a parameter using EBP we can do EBP + 8 as the value of the EBP, moves in bytes, you may think we need to add 12 to reach the starting address of the first parameter,
+    but remember the stack grows downwards, and the data would be stored upwards.
+</p>
+
+<p>
+    
 </p>

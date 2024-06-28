@@ -619,3 +619,21 @@ int 13h ; 13h provides services related to hard disk</code></pre>
     There are many other conventions and you can even make/design your own.
 </p>
 
+<h4>Growth direction of the Stack</h4>
+
+<p>
+    When i state that a stack is growing downwards, this simply means that the newer items being added to the stack have smaller memory addresses than the prior ones. The bottom of the stack 
+    has a larger memory address than the top of the stack.
+</p>
+
+<p>
+    The stack growing downwards is done by default in x86, there are also visualisations where the stack grows upward that are used in other systems, the reason why 
+    stacks usually grow downwards with x86, is also probably due to historical design factors
+</p>
+
+<!--maybe say why they grow down and put this above the prior topic.-->
+
+<h4>Can we resize the run-time stack?</h4>
+
+
+

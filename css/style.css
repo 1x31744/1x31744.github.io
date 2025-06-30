@@ -18,6 +18,9 @@ h2 {
     color: red;
     font-size: 25px;
 }
+h4 {
+    color: red;
+}
 .name {
     font-family: monospace;
     white-space: pre;

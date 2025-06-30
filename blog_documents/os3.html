@@ -104,7 +104,7 @@
     Segmentation is where main memory is seperated into parts called segments where 
     Each segment stores related data. To access data inside a segment, each byte is 
     referred to by its own offset.
-    A running programme is split into 3 different segments in x86; these are:
+    A running program is split into 3 different segments in x86; these are:
 </p>
 <ul>
     <li>
@@ -153,7 +153,7 @@
 </p>
 <p>Let's look at an example for memory segmentation.</p>
 <p>
-    Assume we have some code for a programme loaded into memory, which is stored at 100d. To reach the first byte, we would clearly 
+    Assume we have some code for a program loaded into memory, which is stored at 100d. To reach the first byte, we would clearly 
     Just set our offset to 0, and increase it for any next byte we want to access.
     We would also set the cs register to 100d, as that is the starting address for the current code segment we are
     trying to run.
@@ -161,7 +161,7 @@
 <p>
     x86 always runs with memory segmentation in mind, so when we use the jmp instruction, we aren't jumping to a
     specific space in memory, so let's say we write jmp 100d, we are actually jumping to the offset of 100d inside the 
-    current code segment. This also happens internally with the PC (programme counter), where the PC doesn't
+    current code segment. This also happens internally with the PC (program counter), where the PC doesn't
     Store the full memory address, just the offset of the next instruction.
     Any jump to a location in the same code segment is called a near jump/call; otherwise, it is called a far jump.
     To do far jumps, you can do stuff like "<span class="hljs">jmp 900:1d</span>", this will load 900d into the 
@@ -287,7 +287,7 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 <p>
     When currently running, code refers to a memory address to read from or write to (with data segments) or to call somewhere (with code segments). It is actually referencing a specific
     segment in the system and an offset. This generated memory address that we get when we try to look somewhere in a different segment is not a physical memory address; it is actually a logical memory address.
-    meaning it doesn't actually reference the place in which data is stored; it is simply a logical representation of where we need to go relative to the programme's address space.
+    meaning it doesn't actually reference the place in which data is stored; it is simply a logical representation of where we need to go relative to the program's address space.
     In this case, a logical memory address is a segment selector and offset, to point to the memory location we want to go.
 </p>
 
@@ -398,8 +398,8 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <p>
     The conforming flag is all to do with privilege levels. When a segment is conforming (the value of the conforming flag is 1), this means that code that runs at a less-privileged level 
-    can call this segment, which runs in at a higher privilege level. Why would we want this? Well, the kernel can sometimes provide code that is basic and may be needed by many programmes.
-    This code would have a privilege level of 0, as it is a part of the kernel and would gain the highest privilege level; however, any other programmes, which would have a lower privilege level
+    can call this segment, which runs in at a higher privilege level. Why would we want this? Well, the kernel can sometimes provide code that is basic and may be needed by many programs.
+    This code would have a privilege level of 0, as it is a part of the kernel and would gain the highest privilege level; however, any other programs, which would have a lower privilege level
     wouldn't really be able to call this without the conforming flag. So this is why it is needed.
 </p>
 
@@ -531,7 +531,7 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 
 <p>
     The RPL, as the name suggests, is to do with privilege levels; we mentioned before the DPL, the privilege level of a given segment, and there also exists the CPL. 
-    which is the privilege level of the currently executing code, The RPL is used when a low privilege programme calls, let's say, kernel data that is a more high privilege.
+    which is the privilege level of the currently executing code, The RPL is used when a low privilege program calls, let's say, kernel data that is a more high privilege.
     When calling, the RPL defines the privilege level of the caller, so any attempts to reach a segment where its sector RPL is larger than the CPL should be denied.
 </p>
 
@@ -564,13 +564,13 @@ int 13h ; 13h provides services related to hard disk</code></pre>
 </p>
 
 <p>
-    The register <span class="hljs">EBP</span> (stack frame base pointer) caintains the starting memory address of the current stack frame, the register <span class="hljs">ESP</span> 
+    The register <span class="hljs">EBP</span> (stack frame base pointer) contains the starting memory address of the current stack frame, the register <span class="hljs">ESP</span> 
     contains the memory address of the top of the stack. To push a new item to the stack, the <span class="hljs">push</span> instruction can be used, where the operand is the new item. 
     will decrement the value of ESP to get a new starting address for the next value; this means that the value of the x86 run time stack grows down in memory.
 </p>
 
 <p>
-    The <span class="hljs">pop</span> inscrution can also be used; this will increment the value of the ESP and store the value that was on the top of the stack to the memory location. 
+    The <span class="hljs">pop</span> instruction can also be used; this will increment the value of the ESP and store the value that was on the top of the stack to the memory location. 
     or register specified by the operand.
     It also won't overwrite the popped value with null data; it will just leave it. This is for performance, as writing a bunch of 0's in the place would take up unnecessary recourses.
     when we can just change the existing data when overwriting in the future.

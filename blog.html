@@ -30,6 +30,13 @@
                     hljs.highlightBlock(this, null, false)
                 })
             });
+            $("#os4_content").load("blog_documents/os4.html", function() {
+                hljs.highlightAll();
+                $("span.hljs").each(function() {
+                    var code = $(this).text();
+                    hljs.highlightBlock(this, null, false)
+                })
+            });
 
             $("#nes1_content").load("blog_documents/nes1.html"); 
             $("#nes2_content").load("blog_documents/nes2.html", function() {
@@ -84,6 +91,10 @@
                         <button id="os_part3_button" class="thirditem">
                             <img src="file.png" class="file_image">
                             <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part III : Learning about x86</p>
+                        </button>
+                        <button id="os_part4_button" class="thirditem">
+                            <img src="file.png" class="file_image">
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part IV : Continuing OS development</p>
                         </button>
                     </div>
                     <button id="nes_file" class="seconditem">

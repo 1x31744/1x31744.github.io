@@ -126,9 +126,31 @@ done:
 hello_string db 'Hello World!, i am lytlnyblOS, running in real mode', 0</pre></code>
 
 <p>
-    as discussed in the previous part that covered all of our content we need to get out operating system into protected mode.     so that we can then run C code. You may notice that currently we are still relying on BIOS interrupts. These bios
+    as discussed in the previous part that covered all of our content we need to get out operating system into protected mode.     
+    so that we can then run C code. You may notice that currently we are still relying on BIOS interrupts. These bios
     interrupts are actually very powerful, and you can use them to do many things (like write video games that run within
     the bios) i have done so with the game snake. linked <a href="https://github.com/1x31744/Snake-THE-PREQUEL">here.</a>
 </p>
+
+<h2>Debugging is key moving forward</h2>
+
+<p>
+    With low level programming tasks such as this, it is very important that we have a clean way to debug our programs,
+    despite debugging still being important in regular programming, it is often ommited and not really learned to a degree
+    that it should be by most people learning programming. This is why in this guide i will be intentionally making us have an 
+    error called a <b>triple fault</b> and then we will be using a debugger to fix it.
+</p>
+
+<p>
+    you may be asking <i>"what is a triple fault?"</i> A triple fault is an x86 CPU reset that occurs when the processor 
+    encounters an exception, fails to invoke the exception handler (causing a double fault), and then also fails to invoke
+    the double fault handler. At that point, the CPU resets itself. In our QEMU emulator this would look like a bunch of text 
+    flashing on the screen, this is because the system is continually rebooting itself over and over again.
+</p>
+
+<p>
+    The debugger we are going to be using is gdb, make sure to install it.
+</p>
+
 
 

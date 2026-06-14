@@ -138,6 +138,21 @@ os3_file.addEventListener('click', () => {
     dropdown_content.style.display = 'none'
     root_visible = !root_visible
 })
+let os4_file = document.getElementById("os_part4_button")
+let os4_content = document.getElementById("os4_content")
+os4_file.addEventListener('click', () => {
+    blog_content.innerHTML = os4_content.innerHTML
+    dropdown_content.style.display = 'none'
+    root_visible = !root_visible
+})
+let os5_file = document.getElementById("os_part5_button")
+let os5_content = document.getElementById("os5_content")
+os4_file.addEventListener('click', () => {
+    blog_content.innerHTML = os5_content.innerHTML
+    dropdown_content.style.display = 'none'
+    root_visible = !root_visible
+})
+
 
 //nesbuttons
 let nes1_file = document.getElementById("nes_part1_button")

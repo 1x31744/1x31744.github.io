@@ -37,7 +37,13 @@
                     hljs.highlightBlock(this, null, false)
                 })
             });
-
+            $("#os5_content").load("blog_documents/os5.html", function() {
+                hljs.highlightAll();
+                $("span.hljs").each(function() {
+                    var code = $(this).text();
+                    hljs.highlightBlock(this, null, false)
+                })
+            });
             $("#nes1_content").load("blog_documents/nes1.html"); 
             $("#nes2_content").load("blog_documents/nes2.html", function() {
                 hljs.highlightAll();
@@ -103,6 +109,10 @@
                         <button id="os_part4_button" class="thirditem">
                             <img src="file.png" class="file_image">
                             <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part IV : Protected Mode and C</p>
+                        </button>
+                        <button id="os_part5_button" class="thirditem">
+                            <img src="file.png" class="file_image">
+                            <p style="align-self: right; display: inline-block; transform: translate(0, -50%);">Part V : VGA Text Mode</p>
                         </button>
                     </div>
                     <button id="nes_file" class="seconditem">
@@ -180,6 +190,8 @@
         <div id="os2_content" class="doc"></div>
         <div id="os3_content" class="doc"></div>
         <div id="os4_content" class="doc"></div>
+        <div id="os5_content" class="doc"></div>
+
 
         <div id="nes1_content" class="doc"></div>
         <div id="nes2_content" class="doc"></div>

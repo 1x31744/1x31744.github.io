@@ -282,11 +282,81 @@ gdt_null:
     P DPL DPL S E DC RW A<br>
     1 0  0    1 1 0  1  0<br></code>
     
-    <b>The Present flag (P)</b> tells us that this segment exists, if it is set to 0 and we try to access the segment, the CPU
-    will fault.<br>
-    <b>The Descriptor Privilege Level (DPL)</b> is self explanative, we set it to 0 because we want the highest privelege.<br>
-    <b>The Descriptor Type (S)</b>
-
+    <ul>
+        <li><b>The Present flag (P)</b> tells us that this segment exists, if it is set to 0 and we try to access the
+        segment, the CPU will fault.</li>
+        <li><b>The Descriptor Privilege Level (DPL)</b> is self explanative, we set it to 0 because we want the highest
+        privelege.</li>
+        <li><b>The Descriptor Type (S)</b> states what kind of descriptor it is, if this is set to 1 it is a normal
+        code or data segment, if 0, it is a system descriptor such as a LDT, and we don't need that yet</li>
+        <li><b>The Executable (E)</b> when set to 1 means that it is a code segment, when zero it represents data</li>
+        <li><b>DC stands for Direction/Conforming</b>When set to 0 it is a non-conforming code segment, this means
+        that only code running at the correct privelege level may enter it, if DC was 1 then less priveleged code may
+        jump into the segment</li>
+        <li><b>Read/Write (RW)</b> when set to 0 means executable only, but it can not be read, so code cannot
+        be read as data, so we should set RW to 1 so it can be executable and readable</li>
+        <li><b>The access bit (A)</b> States whether the segment has been used, it is automatically set by the cpu later.
+        </li>
+    </ul>
+    So we can see that the access byte, as the name implies, controls access.
 </p>
 
+<h4>The flags nybble</h4>
 
+<p>
+    Our 0xC = 1100, let's take a look:<br>
+    G D L AVL<br>
+    1 1 0 0<br>
+    <ul>
+        <li><b>Granularity (G)</b> being set to 1 makes our limit be measured in 4KiB blocks rather than bytes</li>
+        <li><b>Default Operand Size (D)</b> being set to one states the segment is 32 bits instead of 16</li>
+        <li><b>Long mode (L)</b> being set to 0 keeps us in 32 bits, if it was 1 it would let us go into 64 bit long mode on
+        x86-64 systems</li>
+        <li><b>The Available (AVL)</b> flag is mostly ignored by the CPU, so let's just set it to 0</li>
+    </ul>
+</p>
+
+<p>
+    Now let's look at the data segment which is pretty similar:
+</p>
+
+<pre class="language-x86asm"><code>gdt_data:
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 0x92
+    db 0xCF
+    db 0x00</code></pre>
+
+<p>
+    The only difference here is that we turn off the executable flag as this is a data segment and not a code segment.
+</p>
+
+<p>
+    The final part of the GDT is we need some memory that we will load into the global desciptor table registor, this will 
+    include the size of the GDT and the start address. Mine looks like this:
+</p>
+
+<pre class="language-x86asm"><code>gdt_end:
+gdtr:
+    dw gdt_end - gdt_start - 1 ; set manually for testing
+    dd gdt_start</code></pre>
+
+<p>
+    And that's the end of our gdt and all the additional data we need, now we can start entering the GDT, we can do that with
+    this block of instructions
+</p>
+
+<pre class="language-x86asm"><code>enter_protected:
+    cli ;disable interrupts
+    lgdt [gdtr - start] ; load GDT registor with start address of GDT
+    mov eax, cr0
+    or eax, 1 ;set protection enable bit in control register 0 (cr0)
+    mov cr0, eax
+
+    CODE_SEG equ gdt_code - gdt_start
+    jmp CODE_SEG:p_mode_main</code></pre>
+
+<p>
+    
+</p>

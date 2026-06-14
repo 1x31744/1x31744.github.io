@@ -149,8 +149,144 @@ hello_string db 'Hello World!, i am lytlnyblOS, running in real mode', 0</pre></
 </p>
 
 <p>
-    The debugger we are going to be using is gdb, make sure to install it.
+    The debugger we are going to be using is gdb, make sure to install it before continuing, or install whatever debugger you 
+    prefer.
 </p>
 
+<p>
+    In the state our bootloader and kernel are being compiled as now, using a debugger will be pretty tricky, this is because
+    within our debugger we will not be able to access function names, labels, source lines and variable names (among many
+    other things). We can still use the debugger like this, but it will function more as a CPU monitor than a source debugger
+    so it's important to configure our build environment so we get alot more context when debugging.
+</p>
+
+<h3>Setting up GDB</h3>
+<p>
+    Binary files (which is what we are compiling to now) cannot give functions names, labels and such so the method i am using
+    to get access to them is i am going to be compiling to the .elf format, i will then be copying the .elf compilation back 
+    into .bin this is because if we use the .elf file we would have to refactor some of the code in our bootloader.
+</p>
+
+<p>
+    To compile to elf must make a linker script. This tells the linker where to place things in memory. A linker is a
+    program that combines object files into a final executable and fixes up all the addresses.
+</p>
+
+<p>
+    My linker script, called linker.ld looks like this.
+</p>
+
+<pre><code>ENTRY(start)
+
+SECTIONS
+{
+    . = 0x9000;
+
+    .text :
+    {
+        *(.text)
+    }
+
+    .data :
+    {
+        *(.data)
+    }
+
+    .bss :
+    {
+        *(.bss)
+    }
+}</code></pre>
+
+<p>
+    (explain the code maybe)
+</p>
+
+<p>
+    And then we must add two lines to our makefile, one to link the object file into an elf, and one to copy the elf into a bin
+    file, we must also edit another line in order to compile our kernel into an object file in the elf format. The bootloader
+    will be kept as plain binary as we will not be debugging it at the current moment and will only be 
+    changing it to add blocks . This is our new makefile:
+</p>
+
+<pre><code>BOOT_FILE = bootloader/bootloader.asm 
+KERNEL_FILE = kernel/basic_kernel.asm 
+LINKER = kernel/linker.ld
+        
+build: $(BOOT_FILE) $(KERNEL_FILE)
+	nasm -f bin $(BOOT_FILE) -o bootstrap.o
+	nasm -f elf32 -g -F dwarf $(KERNEL_FILE) -o kernel.o
+	ld -m elf_i386 -T $(LINKER) kernel.o -o kernel.elf
+	objcopy -O binary kernel.elf kernel.bin
+	dd if=bootstrap.o of=kernel.img
+	dd if=kernel.bin of=kernel.img seek=1 conv=notrunc
+	qemu-system-i386 -drive format=raw,file=kernel.img -s -S
+            
+clean:
+	rm -f *.o</code></pre>
+
+<p>
+    the -s flag in qemu starts a TCP port in 1234 and -S tells QEMU to freeze at startup, both of these allow us to connect
+    gdb.
+</p>
+
+<h2>Making the GDT</h2>
+
+<p>
+    before we move into protected mode we must create the GDT. In order to have a complete GDT we first need 3 descriptors, one
+    is the null descriptor which is just a 64 bits of 0. The second is the kernel space code descriptor. The third is the
+    kernel space data descriptor. We could also make descriptors for the user space, but i will refrain from doing that for 
+    now.
+</p>
+
+<p>
+    First let's define the null descriptor which looks like this:
+</p>
+
+<pre class="language-x86asm"><code>gdt_start:
+gdt_null:
+    dq 0</code></pre>
+
+<p>
+    Pretty simple, now for the code descriptor
+</p>
+
+<pre class="language-x86asm"><code>gdt_code:
+    dw 0xFFFF ; limit
+    dw 0x0000 ; base_low
+    db 0x00 ;base_middle
+    db 0x9A ;access
+    db 0xCF ;flags + limit high 4 bits
+    db 0x00 ;base_high</code></pre>
+
+<h4>The base:</h4>
+<p>
+    The comments i left here are pretty useful. You will remember the descriptor structure from the previous chapter.
+    We set All of the Base to 0 because we want the starting address for our kernel space code to be address 0, this is because
+    with our descriptor we are essentially making a flat memory model so whenever we reference an address, for example
+    [0xB8000] for writing to the screen with vga, we access this address using the base + offset (the offset being 0xB8000
+    which is also the actual address). So it makes it so we don't have to factor in a base to get to the addresses we want.
+</p>
+
+<h4>The limit:</h4>
+<p>
+    The limit tells us how much memory the segment is allowed to access, we set it all to F because this is our kernel, so we 
+    want it to be able to access everything that is in memory.
+</p>
+
+<h4>The access byte</h4>
+
+<p>
+    The access byte tells us what kind of segment we have and who is allowed to use it. For our 0x9A this translates to 
+    0x9A = 10011010, let's look at the flags: <code><br>
+    P DPL DPL S E DC RW A<br>
+    1 0  0    1 1 0  1  0<br></code>
+    
+    <b>The Present flag (P)</b> tells us that this segment exists, if it is set to 0 and we try to access the segment, the CPU
+    will fault.<br>
+    <b>The Descriptor Privilege Level (DPL)</b> is self explanative, we set it to 0 because we want the highest privelege.<br>
+    <b>The Descriptor Type (S)</b>
+
+</p>
 
 

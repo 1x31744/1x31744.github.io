@@ -342,6 +342,8 @@ gdtr:
     dw gdt_end - gdt_start - 1 ; set manually for testing
     dd gdt_start</code></pre>
 
+<h2>Going into Protected mode</h2>
+
 <p>
     And that's the end of our gdt and all the additional data we need, now we can start entering the GDT, we can do that with
     this block of instructions
@@ -349,7 +351,7 @@ gdtr:
 
 <pre class="language-x86asm"><code>enter_protected:
     cli ;disable interrupts
-    lgdt [gdtr - start] ; load GDT registor with start address of GDT
+    lgdt [gdtr] ; load GDT registor with start address of GDT
     mov eax, cr0
     or eax, 1 ;set protection enable bit in control register 0 (cr0)
     mov cr0, eax
@@ -358,5 +360,245 @@ gdtr:
     jmp CODE_SEG:p_mode_main</code></pre>
 
 <p>
-    
+    This is essentially 3 things, we first use <code>cli</code> which disables our bios interrupts, we then load the 
+    descriptor table with <code>lgdt></code> we then set the protection enable bit in the control registor, after this 
+    we then perform a far jump into the p_mode_main label (which we will define later) using the code descriptor
 </p>
+
+<pre class="language-x86asm"><code>p_mode_main:
+    mov ax, 10h
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    mov esp, 0x9000
+
+hang:
+    jmp hang</code></pre>
+
+<p>
+    This is our code for our p_mode_main, it's simple, we just set the data segment similary to how we did with the 
+    <code>CODE_SEG</code> earlier, if we wanted we could replace <code>CODE_SEG</code> with 08h. as this would be the value 
+    calculated by <code>gdt_code - gdt_start</code> we also load that into all of our other special segment registers
+</p>
+
+<p>
+    And that should be all for going into protected mode, our full code should look like this:
+</p>
+
+
+<pre class="language-x86asm"><code>; no org code starts at 0x0900 though
+[bits 16]
+start:
+    mov ax, cs
+    mov ds, ax
+
+    mov si, hello_string
+    call print_string
+
+    jmp enter_protected
+
+print_string:
+    mov ah, 0Eh
+
+print_char:
+    lodsb ; sets al = [DS:SI++]
+
+    cmp al, 0
+    je done
+    
+    int 10h
+
+    jmp print_char
+
+done:
+    ret
+
+enter_protected:
+    cli ;disable interrupts
+    lgdt [gdtr] ; load GDT registor with start address of GDT
+    mov eax, cr0
+    or eax, 1 ;set protection enable bit in control register 0 (cr0)
+    mov cr0, eax
+
+    CODE_SEG equ gdt_code - gdt_start
+    jmp CODE_SEG:p_mode_main
+[bits 32]
+p_mode_main:
+    mov ax, 10h
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    mov ss, ax
+    mov esp, 0x9000
+hang:
+    jmp hang
+
+hello_string db 'Hello World!, i am lytlnyblOS, running in real mode', 0
+
+gdt_start:
+gdt_null:
+    dq 0
+gdt_code:
+    dw 0xFFFF ; limit
+    dw 0x0000 ; base_low
+    db 0x00 ;base_middle
+    db 0x9A ;access
+    db 0xCF ;flags + limit high 4 bits
+    db 0x00 ;base_high
+gdt_data:
+    dw 0xFFFF
+    dw 0x0000
+    db 0x00
+    db 0x92
+    db 0xCF
+    db 0x00
+gdt_end:
+gdtr:
+    dw gdt_end - gdt_start - 1 ; set manually for testing
+    dd gdt_start</code></pre>
+
+<p>
+    Let's take away our -s and -S flags from our makefile and then run the program and see what happens. What is most likely 
+    happening for you is that it looks like a bunch of text is flashing on the screen this is our triple fault, if not and
+    the program hangs, you're probably in real mode and can skip what i'm about to talk about next.
+</p>
+
+<h2>Debugging our issue</h2>
+
+<p>
+    Let's add our flags back and debug with gdb, when debugging with gdb we will sometimes want to see the next instructions 
+    using the program counter, but this will not work as we have to factor in the address specified by the code segment.
+    (i'm pretty sure this is only a quirk with real mode by the way).
+    so <code>x/20i $pc</code> (which shows the next 20 instructions) should become: <code>x/20i (($cs * 16) + $pc)</code> 
+    i have made a .gdbinit script to access these commands easier:
+</p>
+
+<pre><code>set architecture i8086
+
+display/i (($cs * 16) + $pc)
+
+define xi
+    x/20i (($cs * 16) + $pc)
+end
+
+define sii
+    si
+    x/10i (($cs * 16) + $pc)
+end</code></pre>
+
+<p>
+    Now when we make we should see "Guest has not initialized the display", before we connect we must run the <code>gdb
+    </code> command to go into gdb then we must do <code>file kernel.elf</code> to load our labels and such, and then 
+    <code>source .gdbinit</code> in order to load our gdb init file, we should then do <code>target remote localhost:1234
+    </code> in order to connect to qemu, eveything is set up now. set a breakpoint at <code>start</code> and type <code>c
+    </code> to continue execution until we hit our breakpoint. we can then try the <code>xi</code> command i have made to 
+    see our next instructions, they should match with our code.
+</p>
+
+<p>
+    You can set a breakpoint at our <code>enter_protected</code> label and then step towards our jump, and you'll see it will 
+    jump to a completely unintended point, so something is going wrong, take a look around, i'll give you some commands that
+    will be useful for gdb and then after that i'll give you the solution.
+</p>
+
+<h2>Some useful GDB commands</h2>
+
+<p>
+    (Addresses and registers i put here are placeholders to represent commands and not specific to check for our problem)
+</p>
+
+<h3>Printing registers</h3>
+
+<pre><code>info registers
+
+print/x $eax
+print/x $eip 
+</code></pre>
+
+<p>
+    first states info of all registers, last two show info of specific registers
+</p>
+
+<h3>Dissasemble instructions/functions</h3>
+
+<pre><code>x/20i $pc 
+
+x/20i 0x7C00
+
+x/20i p_mode_main</code></pre>
+
+<p>
+    The first prints instructions at current location indicated by the program counter, second does at an address, third 
+    does it at a a label 
+</p>
+
+<h3>Viewing raw memory</h3>
+
+<pre><code>x/16bx 0x7C00
+x/16hx 0x7C00
+x/16wx 0x7C00</code></pre>
+
+<p>
+    Views raw memory, useful when we aren't sure if GDB is decoding our instructions correctly, we can check reference manuals 
+    to make sure memory is being represented how we want it to. First does bytes, second does words, third does double words.
+</p>
+
+<h3>Breakpoint stuff</h3>
+
+<pre><code>break 0x7C00
+break p_mode_main
+info breakpoints 
+delete 1</code></pre>
+
+<p>
+    This is how we make, get info about and delete breakpoints.
+</p>
+
+<h3>Watching execution</h3>
+
+<pre><code>display/i $pc 
+display/x $eax</code></pre>
+
+<p>
+    These output registers after each step (<code>si</code>) command.
+</p>
+
+<p>
+    Now you are equipped to find the error, the next piece of text will showcase how to find the solution, i suggest you 
+    try to find it yourself a bit before you look at my solution, being proficient with debugging is an important skill
+    as i've said before
+</p>
+
+<h2>Solution to our triple fault</h2>
+
+<p>
+    In GDB, if we make a breakpoint at <code>enter_protected</code>, and then we go right before our lgdt command and use:
+    <code>(gdb) x/8bx (($cs * 16) + $pc)</code>to see raw memory, we will see this output:
+</p>
+
+<pre><code>0x9019 &lt;enter_protected+1*&gt;:	0x0f	0x01	0x16	0x8e	0x90	0x0f	0x20	0xc0</code></pre>
+
+<p>
+    <code>0xf 0x1 0x16</code> is the opcode for our lgdt instruction <code>0x8e 0x90</code> is our operand which decodes to
+    0x908e (and the other stuff being the next instruction). This <i>IS</i> the address of gdtr, but this is not how we are 
+    supposed to use lgdt, as we are supposed to use an offset as our code segment is set to <code>0x9000</code> at the 
+    <code>start</code> label. So we much change our instruction to:
+</p>
+
+<pre><code>lgdt [gdtr - start] ; load GDT registor with start address of GDT</code></pre>
+
+<p>
+    We may also notice that we are not printing correctly too, this is the same issue, so let's change that too:
+</p>
+
+<pre><code>mov si, hello_string - start</code></pre>
+
+<p>
+    We should now be in real mode! yay!!! another good debugging technique is checking other people's implementations, that's
+    how i originally solved this issue. But it's also solvable via GDB. If you're thinking "How could i even possibly realise 
+    that" Then welcome to bare metal programming :)
+</p>
+

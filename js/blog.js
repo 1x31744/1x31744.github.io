@@ -126,7 +126,7 @@ os4_file.addEventListener('click', () => {
 })
 let os5_file = document.getElementById("os_part5_button")
 let os5_content = document.getElementById("os5_content")
-os4_file.addEventListener('click', () => {
+os5_file.addEventListener('click', () => {
     blog_content.innerHTML = os5_content.innerHTML
 })
 

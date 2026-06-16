@@ -129,6 +129,41 @@ let os5_content = document.getElementById("os5_content")
 os5_file.addEventListener('click', () => {
     blog_content.innerHTML = os5_content.innerHTML
 })
+let os6_file = document.getElementById("os_part6_button")
+let os6_content = document.getElementById("os6_content")
+os6_file.addEventListener('click', () => {
+    blog_content.innerHTML = os6_content.innerHTML
+})
+let os7_file = document.getElementById("os_part7_button")
+let os7_content = document.getElementById("os7_content")
+os7_file.addEventListener('click', () => {
+    blog_content.innerHTML = os7_content.innerHTML
+})
+let os8_file = document.getElementById("os_part8_button")
+let os8_content = document.getElementById("os8_content")
+os8_file.addEventListener('click', () => {
+    blog_content.innerHTML = os8_content.innerHTML
+})
+let os9_file = document.getElementById("os_part9_button")
+let os9_content = document.getElementById("os9_content")
+os9_file.addEventListener('click', () => {
+    blog_content.innerHTML = os9_content.innerHTML
+})
+let os10_file = document.getElementById("os_part10_button")
+let os10_content = document.getElementById("os10_content")
+os10_file.addEventListener('click', () => {
+    blog_content.innerHTML = os10_content.innerHTML
+})
+let os11_file = document.getElementById("os_part11_button")
+let os11_content = document.getElementById("os11_content")
+os11_file.addEventListener('click', () => {
+    blog_content.innerHTML = os11_content.innerHTML
+})
+let os12_file = document.getElementById("os_part12_button")
+let os12_content = document.getElementById("os12_content")
+os12_file.addEventListener('click', () => {
+    blog_content.innerHTML = os12_content.innerHTML
+})
 
 
 //nesbuttons

@@ -1,2 +1,133 @@
 <h1>Part VI : Interrupts & IDT</h1>
 
+<h2>What are we doing</h2>
+
+<p>
+    The task we complete in this part will be slightly similar to before when we created a global descriptor table in 
+    the sense that we are going to create an IDT (Interrupt Descriptor Table). And fill it with data (and some other extra 
+    helper functions both in asm and C) and then it will just work as intended. 
+    We will start by making a very basic setup for the IDT that just handles one interrupt and will then build it further
+</p>
+
+<p>
+    In my introduction to interrupts i handled the structure of the table perfectly, you may have this very surface level 
+    understanding and we need to understand specifically what we are handling, and what the CPU is handling.
+</p>
+
+<p>
+    When an event happens, such as dividing by zero (which is the first interrupt we will add), the CPU does not know how 
+    to respond, right now doing a divide by zero would cause a triple fault as it will detect the divide by zero but won't 
+    know what to do. The CPU's responsibility is to detect an event like this and transfer execution to code that is written
+    by us.
+</p>
+
+<p>
+    Interrupts aren't always done automatically by the CPU though, they can also be triggered by us with the <code>int</code>
+    instruction, we did this before with the BIOS interrupts when printing to the screen. OK, now let's get started.
+</p>
+
+<h2>Creating the IDT</h2>
+
+<p>
+    For this, we will need 3 files: interrupts.asm, interrupts.c and interrupts.h
+</p>
+
+<p>
+    In our header file, the defined types in order to provide the building blocks for our IDT are defined as such:
+</p>
+
+<pre><code>typedef struct {
+    uint16_t offset_low;
+    uint16_t selector;
+    uint8_t reserved;
+    uint8_t flags;
+    uint16_t offset_high;
+} __attribute__((packed)) idt_entry_t;
+
+typedef struct {
+    uint16_t limit;
+    uint32_t base;
+} __attribute__((packed)) idtr_t;</code></pre>
+
+<p>
+    here the <code>__attribute__((packed)) idtr_t;</code> just makes it so the data in memory is exactly as how we define
+    it in the order we define it. The structure of how we define this is going to pretty similar to our GDT, we just want
+    a "descriptor", which in this case is an entry for our interrupt and then we need something like the GDTR data we had 
+    before which describes or interrupt descriptor table, this being the IDTR.
+</p>
+
+<p>
+    We then need to define our functions here:
+</p>
+
+<pre><code>void idt_init(void);
+
+void idt_set_gate(
+    uint8_t interrupt,
+    uint32_t handler_address,
+    uint16_t selector,
+    uint8_t flags
+);
+
+void isr_handler(registers_t* regs);</code></pre>
+
+<p>
+    <code>idt_init</code> and <code>idt_set_gate</code> are both pretty self explanitory, but the isr_hander is just made to
+    handle what happens when an interrupt occurs. Also you may see the regs variable, this is defined from this type:
+</p>
+
+<pre><code>/* registers passed from asm to C */
+typedef struct {
+    uint32_t ds;
+
+    uint32_t edi;
+    uint32_t esi;
+    uint32_t ebp;
+    uint32_t esp;
+    uint32_t ebx;
+    uint32_t edx;
+    uint32_t ecx;
+    uint32_t eax;
+
+    uint32_t interrupt_number;
+    uint32_t error_code;
+
+    uint32_t eip;
+    uint32_t cs;
+    uint32_t eflags;
+    uint32_t user_esp;
+    uint32_t ss; 
+
+} registers_t;</code></pre>
+
+<p>
+    This data structure is just so we can pass our registers when we go from assembly to C in our code, which will happen
+    when an interrupt is called, speaking of assembly, we must also define external functions for our assembly labels:
+</p>
+
+<pre><code>extern void idt_load(idtr_t* idtr);
+
+extern void isr0(void);</code></pre>
+
+<p>
+    To start with implementation of things, let's look at the interrupts.asm file i have created:
+</p>
+
+<pre class="language-x86asm"><code>[BITS 32]
+
+extern isr_handler
+
+global idt_load
+global isr0
+
+idt_load:
+    mov eax, [esp + 4]
+    lidt [eax]
+    ret
+
+isr0:
+    push dword 0
+    call isr_handler
+    add esp, 4
+    iret</code></pre>
+

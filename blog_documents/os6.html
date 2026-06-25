@@ -641,3 +641,60 @@ extern void irq12(void);
 extern void irq13(void);
 extern void irq14(void);
 extern void irq15(void);</code></pre>
+
+<p>
+    Here we have 3 helper functions <code>outb</code> simply sends a byte to I/O, <code>inb</code> recieves a byte from I/O,
+    <code>io_wait</code> is a rather primitive version of a time out that writes to an unused port in order to give I/O 
+    enough time to finish processing the previous command (real timouts will come when we make our timer driver, but what we
+    have here isn't bad in any way)
+<p>
+
+<p>
+    now that we know the helper functions, let's take a look at the pic_remap function first, as this should be the first
+    step in our logic of handling the PIC. The function looks like this:
+</p>
+
+<pre><code>void pic_remap(int offset1, int offset2) {
+    //save state of enabled IRQs
+    uint8_t a1 = inb(PIC1_DATA);
+    uint8_t a2 = inb(PIC2_DATA);
+
+    /* Enter initialization mode. */
+    outb(PIC1_COMMAND, ICW1_INIT | ICW1_ICW4);
+    io_wait();
+
+    outb(PIC2_COMMAND, ICW1_INIT | ICW1_ICW4);
+    io_wait();
+
+    /* set up first interrupt vector used by master and slave */
+
+    outb(PIC1_DATA, offset1);
+    io_wait();
+
+    outb(PIC2_DATA, offset2);
+    io_wait();
+
+    /* Connect master and slave through IRQ2 line */
+    outb(PIC1_DATA, 4);
+    io_wait();
+
+    outb(PIC2_DATA, 2);
+    io_wait();
+
+    /* select 8086/x86 interrupt mode */
+    outb(PIC1_DATA, ICW4_8086);
+    io_wait();
+
+    outb(PIC2_DATA, ICW4_8086);
+    io_wait();
+
+    /* restore interrupt masks */
+    outb(PIC1_DATA, a1);
+    outb(PIC2_DATA, a2);
+
+}</code></pre>
+
+<p>
+    You can see in this code that when we use ICWs, we need to send the commands both to the master and slave PICs.
+    The first thing we do is 
+</p>

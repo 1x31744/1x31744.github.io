@@ -1,1 +1,25 @@
-<h1>Part VII : Keyboard Driver</h1>
+<h1>Part VII : Timer Driver</h1>
+
+<h2>What is the timer</h2>
+
+<p>
+    A driver is simply software that knows how to use a paticular piece of hardware. So technically, we have already written
+    a driver (this being the PIC driver).
+</p>
+
+<p>
+    In regards to the timer, we are interfacing with the Programmable Interval Timer (PIT). All the PIT does is generate an
+    interrupt after a specified ammount of time. This is good for a lot of reasons, we can use this to keep track of how
+    much time has passed, we can also do sleeping for a specified ammount of time, we will also use this if we want to 
+    schedule tasks and finally we can also implement timouts and many more things.
+</p>
+
+<p>
+    The timer is also vary simple to implement, as we just would really only make 3 functions. One for initialization, one
+    for handling the ticks, and one for retrieving the current tick. Very nice! So the code i present here will be very
+    similar to that sort VGA section i provided before.
+</p>
+
+<p>
+
+</p>

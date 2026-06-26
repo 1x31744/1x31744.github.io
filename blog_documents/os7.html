@@ -21,5 +21,7 @@
 </p>
 
 <p>
-
+    In order to communicate we will be using the same inb/outb functions. The pit always recieves an internal clock of around
+    1193182 Hz so we need to calculate a divisor by doing 1193182/desiredfreq. It will then count from our diviser to 0 every
+    cpu tick and then send our timer tick.
 </p>

@@ -819,8 +819,8 @@ IRQ 15, 47</code></pre>
 </p>
 
 <pre><code>void irq_handler(registers_t* regs) {
-    vga_text_writeline(&terminal, "IRQ");
-    pic_send_eoi(regs->interrupt_number - 32);
+    vga_text_writeline(&amp;terminal, "IRQ");
+    pic_send_eoi(regs-&gt;interrupt_number - 32);
 }</code></pre>
 
 <p>

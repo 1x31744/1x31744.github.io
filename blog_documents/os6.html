@@ -696,5 +696,157 @@ extern void irq15(void);</code></pre>
 
 <p>
     You can see in this code that when we use ICWs, we need to send the commands both to the master and slave PICs.
-    The first thing we do is 
+    The first thing we do is use the OR operator in order to say that we are initializing and performing an ICW4 after this.
+    For ICW2 we send the offset address that is intended in the IDT for both master and slave which are seperate.
+    We then connect the master and the slave by setting bit 2 of the data given to the master and by sending a value of 2 
+    to the slave (which indicates connect through output).
+    We then select x86 mode and then restore the masks.
 </p>
+
+<p>
+    Now let's take a look at our helper functions:  
+</p>
+
+<pre class="language-x86asm"><code>outb:
+    mov dx, [esp + 4]
+    mov al, [esp + 8]
+    out dx, al
+    ret
+inb:
+    mov dx, [esp + 4]
+    in al, dx
+    movzx eax, al
+    ret
+io_wait:
+    mov al, 0
+    out 0x80, al
+    ret</code></pre>
+
+<p>
+    Simple, remember to add global statements so they are visible to C.
+</p>
+
+<p>
+    That's PIC remapping all set up now we can look at setting it up with the IDT, this is very similar to what we did before
+    with the ISRs, First let's set them up when initializing the IDT.
+<p>
+
+<pre><code>    idt_set_gate(32, (uint32_t)irq0,  0x08, 0x8E);
+    idt_set_gate(33, (uint32_t)irq1,  0x08, 0x8E);
+    idt_set_gate(34, (uint32_t)irq2,  0x08, 0x8E);
+    idt_set_gate(35, (uint32_t)irq3,  0x08, 0x8E);
+    idt_set_gate(36, (uint32_t)irq4,  0x08, 0x8E);
+    idt_set_gate(37, (uint32_t)irq5,  0x08, 0x8E);
+    idt_set_gate(38, (uint32_t)irq6,  0x08, 0x8E);
+    idt_set_gate(39, (uint32_t)irq7,  0x08, 0x8E);
+    idt_set_gate(40, (uint32_t)irq8,  0x08, 0x8E);
+    idt_set_gate(41, (uint32_t)irq9,  0x08, 0x8E);
+    idt_set_gate(42, (uint32_t)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (uint32_t)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (uint32_t)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (uint32_t)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (uint32_t)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (uint32_t)irq15, 0x08, 0x8E);</code></pre>
+
+<p>
+    Then we can write a macro that handles them:
+</p>
+
+<pre><code class='language-x86asm'>global irq0
+global irq1
+global irq2
+global irq3
+global irq4
+global irq5
+global irq6
+global irq7
+global irq8
+global irq9
+global irq10
+global irq11
+global irq12
+global irq13
+global irq14
+global irq15
+
+%macro IRQ 2
+irq%1:
+    push dword 0
+    push dword %2
+    jmp irq_common_stub
+%endmacro
+
+IRQ 0, 32
+IRQ 1, 33
+IRQ 2, 34
+IRQ 3, 35
+IRQ 4, 36
+IRQ 5, 37
+IRQ 6, 38
+IRQ 7, 39
+IRQ 8, 40
+IRQ 9, 41
+IRQ 10, 42
+IRQ 11, 43
+IRQ 12, 44
+IRQ 13, 45
+IRQ 14, 46
+IRQ 15, 47</code></pre>
+
+<p>
+    Pushing only 0 for the error code. Then we have our stub which is the same other than the function we call:
+</p>
+
+<pre>irq_common_stub:
+    pusha
+
+    mov ax, ds
+    push eax
+
+    push esp
+    call irq_handler
+    add esp, 4
+
+    pop eax
+
+    popa
+
+    add esp, 8
+    iret</code></pre>
+
+<p>
+    Now let's take a look at the basic handler, here it is:
+</p>
+
+<pre><code>void irq_handler(registers_t* regs) {
+    vga_text_writeline(&terminal, "IRQ");
+    pic_send_eoi(regs->interrupt_number - 32);
+}</code></pre>
+
+<p>
+    The text is there for later testing. However the there is another thing we do. EOI stands for end of instruction and
+    it's a code we send to the PIC to indicate the end of the instruction, the PIC then cleans up for us rather than us 
+    manually having to return or something.
+
+    Here's our functio for it, as well as a definitions we need:
+<p>
+
+<pre><code>void irq_handler(registers_t* regs) {
+    vga_text_writeline(&amp;terminal, "IRQ");
+    pic_send_eoi(regs-&gt;interrupt_number - 32);
+}
+#define PIC_EOI		0x20		/* End-of-interrupt command code */</code></pre>
+
+<p>
+    Now the final thing to do before we test is to add this:
+<p>
+
+<pre><code>    pic_remap(0x20, 0x28);
+    asm volatile("sti");</code></pre>
+
+<p>
+    To the end of our idt init file. The latter being an instruction that activates interrupts. Now when we run our code 
+    and resize the data loaded byt he bootloader we can see that our text will print to the terminal over and over. This
+    is done by the timer. Which we will be writing drivers for as our next step.
+</p>
+

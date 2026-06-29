@@ -1,1 +1,90 @@
 <h1>Part VIII : Keyboard Driver</h1>
+
+<h2>An overview of the hardware</h2>
+
+<p>
+    In this part we are technically writing two drivers, one is for a PS/2 controller, this uses serial communication to 
+    talk to a PS/2 Keyboard. Writing for this driver includes:
+    <ul>
+        <li>Reading bytes from the controller</li>
+        <li>Sending bytes</li>
+        <li>Enabling ports</li>
+        <li>Sending commands to the keyboard</li>
+    </ul>
+    All of these things being fairly low level. <br>
+    The other device we are writing a driver for is the keyboard itself which:
+    <ul>
+        <li>Recieves scan codes</li>
+        <li>Decodes scan codes</li>
+        <li>Tracks Shift/Ctrl/Alt</li>
+        <li>Handles Caps Lock</li>
+        <li>Converts scan codes into key events</li>
+        <li>Converts to ASCII</li>
+    </ul>
+    With this being more higher level after we complete the first task.
+</p>
+
+<p>
+    There are only 2 ports we need for the controller <code>0x60</code> for reading and writing data, and <code>0x64</code>
+    which gives the status bits when reading and allows us to write commands to it when writing.
+</p>
+
+<p>
+    Reading from port 0x64 gives us:
+</p>
+
+<pre><code>Bit 0
+Output buffer full
+
+Bit 1
+Input buffer full
+
+Bit 2
+System flag
+
+Bit 3
+Command/Data
+
+Bit 4
+Keyboard lock
+
+Bit 5
+Mouse output
+
+Bit 6
+Timeout
+
+Bit 7
+Parity Error</code></pre>
+
+<p>
+    There are only really 2 that are important. These being output and input buffer full, If output buffer full is set, then
+    0x60 contains data that is waiting, if input buffer is set then the controller is busy and we can't write yet. Another 
+    thing to note is that when the output buffer is full, then IRQ1 happens.
+</p>
+    
+
+<p>
+    When a key is pressed, the keyboar generates a scan code, the controller recieves it and hten stores it whilst also raising
+    IQR1, then we can recieve it and decode. The keyboard does not send ASCII, it sends scancodes. These are numbers that 
+    symbolise interactions with the keyboard. For example <code>0x1E</code> symbolises A is pressed, and <code>0x9E</code> 
+    symbolises release.
+</p>
+
+<p>
+    Some scancodes have multiple bytes (like right control) this is symbolised by the 0xE0 prefix. The pause key is 8 bytes
+    long, but we will be ignoring this mulimedia key of course.
+</p>
+
+<p>
+    For init we:
+    <ol>
+        <li>Flush any pending data from the controller's output buffer</li>
+        <li>Send 0xF4 to the keyboard to enable scanning (the bios may have already done this but just good practice</li>
+        <li>Install the IRQ1 handler</li>
+    </ol>
+</p>
+
+<p>
+    Now let's get writing, starting with the header file:
+</p>
